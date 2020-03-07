@@ -1,5 +1,5 @@
-# jgl_demos
-Modern OpenGL samples
+# jJGL Demos
+Modern OpenGL C++ samples
 
 To compile the project you can use VS 2017 (it's ceated with this IDE).
 
