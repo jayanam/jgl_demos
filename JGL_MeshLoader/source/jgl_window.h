@@ -22,7 +22,8 @@ class JGLWindow
 {
 public:
 
-  JGLWindow() = default;
+  JGLWindow() : mIsValid(false), mWindow(nullptr)
+  {}
 
   ~JGLWindow();
 
@@ -30,10 +31,17 @@ public:
 
   void render();
 
+
   void on_key(int key, int scancode, int action, int mods);
 
+  void on_resize(int width, int height);
 
 private:
+
+  bool load_mesh();
+
+  // Workaround til we have an input method
+  const std::string mModel = "Model.obj";
 
   DrawFlags mDrawFlags;
 
@@ -42,6 +50,8 @@ private:
   std::unique_ptr<Camera> mCamera;
 
   std::unique_ptr<ShaderUtil> mShader;
+
+  std::unique_ptr<Mesh> mMesh;
 
   bool mIsValid;
 

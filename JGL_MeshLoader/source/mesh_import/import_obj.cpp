@@ -13,36 +13,47 @@ namespace nmesh_import
 
     std::vector<glm::vec3> t_vert;
 
-    std::string line;
-    while (std::getline(in, line))
+    std::string s_line;
+    while (std::getline(in, s_line))
     {
-      if (line.substr(0, 2) == "v ")
+      std::istringstream ss_line(s_line);
+      std::string id;
+      ss_line >> id;
+
+
+      if (id == "v")
       {
         // read vertices
-        std::istringstream s(line.substr(2));
-        glm::vec3 v; s >> v.x; s >> v.y; s >> v.z;
+        glm::vec3 v;
+
+        ss_line >> v.x >> v.y >> v.z;
 
         // Add to temporary vertices before indexing
         t_vert.push_back(v);
       }
-      else if (line.substr(0, 2) == "f ")
+
+      // Faces
+      else if (id == "f")
       {
-        // TODO: Store UVs and Normals
-        unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
-        int count_found = sscanf_s(line.substr(2).c_str(), 
+        // TODO: Add quads, now we just have tris, create a class to hold
+        // vertex, normal and UV
+        std::string v1, v2, v3;
+
+        uint32_t vertexIndex[3];
+        uint32_t normIdx[3];
+        uint32_t uvIdx[3];
+
+        int count_found = sscanf_s(s_line.substr(2).c_str(), 
           "%d/%d/%d %d/%d/%d %d/%d/%d\n", 
-          &vertexIndex[0], &uvIndex[0], &normalIndex[0], 
-          &vertexIndex[1], &uvIndex[1], &normalIndex[1], 
-          &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+          &vertexIndex[0], &uvIdx[0], &normIdx[0],
+          &vertexIndex[1], &uvIdx[1], &normIdx[1],
+          &vertexIndex[2], &uvIdx[2], &normIdx[2]);
 
-        if (count_found != 9) {
-          return false;
+        if (count_found % 3 == 0) {
+          pMesh->add_vertex_index(vertexIndex[0] - 1);
+          pMesh->add_vertex_index(vertexIndex[1] - 1);
+          pMesh->add_vertex_index(vertexIndex[2] - 1);
         }
-
-        pMesh->add_vertex_index(vertexIndex[0]-1);
-        pMesh->add_vertex_index(vertexIndex[1]-1);
-        pMesh->add_vertex_index(vertexIndex[2]-1);
-
       }
     }
 

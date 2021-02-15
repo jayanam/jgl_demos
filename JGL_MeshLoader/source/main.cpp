@@ -5,7 +5,7 @@
 int main(void)
 {
   JGLWindow glWindow;
-  if (glWindow.init(640, 480, "JMesh Loader: Open GL Demo"))
+  if (glWindow.init(800, 600, "JMesh Loader: Open GL Demo"))
   {
     glWindow.render();
   }

@@ -61,6 +61,19 @@ namespace nshaders
 		glUseProgram(mProgramId);
 	}
 
+  void ShaderUtil::update(const nelems::Camera* camera)
+  {
+    GLint modelLoc = glGetUniformLocation(mProgramId, "model");
+    GLint viewLoc = glGetUniformLocation(mProgramId, "view");
+    GLint projLoc = glGetUniformLocation(mProgramId, "projection");
+
+    glm::mat4 model{ 1.0f };
+
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->get_view()));
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera->get_perspective()));
+  }
+
 	void ShaderUtil::unload()
 	{
 		glDeleteProgram(mProgramId);

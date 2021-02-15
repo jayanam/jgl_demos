@@ -8,6 +8,14 @@ static void on_key_callback(GLFWwindow* window, int key, int scancode, int actio
   pWindow->on_key(key, scancode, action, mods);
 }
 
+
+static void on_window_size_callback(GLFWwindow* window, int width, int height)
+{
+  JGLWindow* pWindow = static_cast<JGLWindow*>(glfwGetWindowUserPointer(window));
+  pWindow->on_resize(width, height);
+}
+
+
 bool JGLWindow::init(int width, int height, const std::string& title)
 {
   mIsValid = true;
@@ -30,6 +38,8 @@ bool JGLWindow::init(int width, int height, const std::string& title)
 
   glfwSetWindowUserPointer(mWindow, this);
   glfwSetKeyCallback(mWindow, on_key_callback);
+
+  glfwSetWindowSizeCallback(mWindow, on_window_size_callback);
   glfwMakeContextCurrent(mWindow);
 
   GLenum err = glewInit();
@@ -40,10 +50,12 @@ bool JGLWindow::init(int width, int height, const std::string& title)
     mIsValid = false;
   }
 
+  glEnable(GL_DEPTH_TEST);
+
   auto aspect = (float)width / (float)height;
   mShader = std::make_unique<ShaderUtil>();
+  mShader->load("shaders/vs.shader", "shaders/fs.shader");
   mCamera = std::make_unique<Camera>(glm::vec3(0, 0, -3), 45.0f, aspect, 0.1f, 100.0f);
-
   return mIsValid;
 }
 
@@ -61,84 +73,94 @@ JGLWindow::~JGLWindow()
   }
 }
 
+void JGLWindow::on_resize(int width, int height)
+{
+  mCamera->set_aspect((float)width / (float)height);
+  glViewport(0, 0, width, height);
+}
+
 void JGLWindow::on_key(int key, int scancode, int action, int mods)
 {
-  // Toggle draw faces
-  if (key == GLFW_KEY_F && action == GLFW_PRESS)
+  if (action == GLFW_PRESS)
   {
-    mDrawFlags.draw_faces = !mDrawFlags.draw_faces;
-  }
+    // Toggle draw faces
+    if (key == GLFW_KEY_F)
+    {
+      mDrawFlags.draw_faces = !mDrawFlags.draw_faces;
+    }
 
-  // Toggle draw edges
-  if (key == GLFW_KEY_E && action == GLFW_PRESS)
-  {
-    mDrawFlags.draw_edges = !mDrawFlags.draw_edges;
+    // Toggle draw edges
+    if (key == GLFW_KEY_E)
+    {
+      mDrawFlags.draw_edges = !mDrawFlags.draw_edges;
+    }
   }
 }
 
 void JGLWindow::render()
 {
-  mShader->load("shaders/vs.shader", "shaders/fs.shader");
+  load_mesh();
 
-  std::unique_ptr<Mesh> pMesh = std::make_unique<Mesh>();
-
-  ObjMeshImporter objImporter;
-  if (!objImporter.from_file("model.obj", pMesh.get()))
-  {
-    fprintf(stderr, "Error: Model cant be loaded\n");
-    return;
-  }
-
-  glEnable(GL_DEPTH_TEST);
-
-  pMesh->init();
-
-  glm::mat4 model{ 1.0f };
-
-  mShader->use();
-
-  // Get all uniform locations for shader
-  GLint modelLoc = glGetUniformLocation(mShader->get_program_id(), "model");
-  GLint viewLoc = glGetUniformLocation(mShader->get_program_id(), "view");
-  GLint projLoc = glGetUniformLocation(mShader->get_program_id(), "projection");
-
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-  glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(mCamera->get_view()));
-  glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(mCamera->get_perspective()));
-
-  /* Loop until the user closes the window */
+    /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(mWindow))
   {
+    mShader->use();
+    mShader->update(mCamera.get());
+
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Draw the mesh
-    if (mDrawFlags.draw_faces)
+    if (mMesh)
     {
-      glEnable(GL_POLYGON_OFFSET_FILL);
-      glPolygonOffset(1.0f, 1.0f);
+      // Draw the mesh
+      if (mDrawFlags.draw_faces)
+      {
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(1.0f, 1.0f);
 
-      glm::vec4 vColor{ 0.7f, 0.1f, 0.1f, 1.0f };
-      mShader->set_vec4(vColor, "color");
-      pMesh->draw_faces();
-      glDisable(GL_POLYGON_OFFSET_FILL);
-    }
+        glm::vec4 vColor{ 0.7f, 0.1f, 0.1f, 1.0f };
+        mShader->set_vec4(vColor, "color");
+        mMesh->draw_faces();
+        glDisable(GL_POLYGON_OFFSET_FILL);
+      }
 
-    if (mDrawFlags.draw_edges)
-    {
-      glm::vec4 vColor{ 1.0f, 1.0f, 1.0f, 1.0f };
-      mShader->set_vec4(vColor, "color");
-      pMesh->draw_wireframe();
+      if (mDrawFlags.draw_edges)
+      {
+        glm::vec4 vColor{ 1.0f, 1.0f, 1.0f, 1.0f };
+        mShader->set_vec4(vColor, "color");
+        mMesh->draw_wireframe();
+      }
     }
 
     glfwSwapBuffers(mWindow);
 
     glfwPollEvents();
+
+    if (glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS)
+    {
+      mCamera->set_offset(glm::vec3(0, 0, -0.1));
+    }
+
+    if (glfwGetKey(mWindow, GLFW_KEY_S) == GLFW_PRESS)
+    {
+      mCamera->set_offset(glm::vec3(0, 0, 0.1));
+    }
   }
 
   mShader->unload();
 }
 
+bool JGLWindow::load_mesh()
+{
+  mMesh = std::make_unique<Mesh>();
 
+  ObjMeshImporter objImporter;
+  if (!objImporter.from_file(mModel, mMesh.get()))
+  {
+    fprintf(stderr, "Error: Model cant be loaded\n");
+    return false;
+  }
 
-
+  mMesh->init();
+  return true;
+}
