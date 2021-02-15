@@ -1,7 +1,7 @@
 # JGL Demos
 Modern OpenGL C++ samples
 
-To compile the project you can use VS 2017 (it's ceated with this IDE).
+To compile the project you can use VS 2017 and above.
 
 You also have to link GLFW, Glew and GLM.
 
