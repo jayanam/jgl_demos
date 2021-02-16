@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "main.h"
-#include "jgl_window.h"
+#include "window/jgl_window.h"
 
 int main(void)
 {

@@ -53,7 +53,7 @@ bool JGLWindow::init(int width, int height, const std::string& title)
   glEnable(GL_DEPTH_TEST);
 
   auto aspect = (float)width / (float)height;
-  mShader = std::make_unique<ShaderUtil>();
+  mShader = std::make_unique<Shader>();
   mShader->load("shaders/vs.shader", "shaders/fs.shader");
   mCamera = std::make_unique<Camera>(glm::vec3(0, 0, 3), 45.0f, aspect, 0.1f, 100.0f);
   return mIsValid;

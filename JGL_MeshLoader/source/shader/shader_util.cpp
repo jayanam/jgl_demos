@@ -5,7 +5,7 @@ namespace nshaders
 {
 
 
-	unsigned int ShaderUtil::get_compiled_shader(unsigned int shader_type, const std::string& shader_source)
+	unsigned int Shader::get_compiled_shader(unsigned int shader_type, const std::string& shader_source)
 	{
 		unsigned int shader_id = glCreateShader(shader_type);
 
@@ -31,7 +31,7 @@ namespace nshaders
 		return shader_id;
 	}
 
-	bool ShaderUtil::load(const std::string& vertexshader_file, const std::string& fragmentshader_file)
+	bool Shader::load(const std::string& vertexshader_file, const std::string& fragmentshader_file)
 	{
 		std::ifstream is_vs(vertexshader_file);
 		const std::string f_vs((std::istreambuf_iterator<char>(is_vs)), std::istreambuf_iterator<char>());
@@ -56,12 +56,12 @@ namespace nshaders
 		return true;
 	}
 
-	void ShaderUtil::use()
+	void Shader::use()
 	{
 		glUseProgram(mProgramId);
 	}
 
-  void ShaderUtil::update(const nelems::Camera* camera)
+  void Shader::update(const nelems::Camera* camera)
   {
     GLint modelLoc = glGetUniformLocation(mProgramId, "model");
     GLint viewLoc = glGetUniformLocation(mProgramId, "view");
@@ -74,12 +74,12 @@ namespace nshaders
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera->get_projection()));
   }
 
-	void ShaderUtil::unload()
+	void Shader::unload()
 	{
 		glDeleteProgram(mProgramId);
 	}
 
-  void ShaderUtil::set_vec4(const glm::vec4& vec4, const std::string& name)
+  void Shader::set_vec4(const glm::vec4& vec4, const std::string& name)
   {
     GLint myLoc = glGetUniformLocation(get_program_id(), name.c_str());
     glProgramUniform4fv(get_program_id(), myLoc, 1, glm::value_ptr(vec4));

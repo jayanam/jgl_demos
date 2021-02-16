@@ -6,7 +6,7 @@ namespace nshaders
 {
 
 	// Utitlity class to load, compile and attach a vertex- and fragment shader to a program
-	class ShaderUtil
+	class Shader
 	{
 
 	private:
@@ -15,7 +15,7 @@ namespace nshaders
 		unsigned int get_compiled_shader(unsigned int shader_type, const std::string& shader_source);
 
 	public:
-		ShaderUtil() = default;
+		Shader() = default;
 
 		// Load a vertex and a fragment shader from file
 		bool load(const std::string& vertexshader_file, const std::string& fragmentshader_file);

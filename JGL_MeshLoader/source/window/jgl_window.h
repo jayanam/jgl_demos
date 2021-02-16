@@ -49,7 +49,7 @@ private:
 
   std::unique_ptr<Camera> mCamera;
 
-  std::unique_ptr<ShaderUtil> mShader;
+  std::unique_ptr<Shader> mShader;
 
   std::unique_ptr<Mesh> mMesh;
 
