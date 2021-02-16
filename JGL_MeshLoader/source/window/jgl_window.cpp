@@ -155,13 +155,14 @@ void JGLWindow::handle_input()
   }
 
   // Left mouse button pressed
-  if (glfwGetMouseButton(mWindow, 0) == GLFW_PRESS)
-  {
-    double x, y;
-    glfwGetCursorPos(mWindow, &x, &y);
+  int left_mouse = glfwGetMouseButton(mWindow, 0);
+  int right_mouse = glfwGetMouseButton(mWindow, 1);
+  
+  double x, y;
+  glfwGetCursorPos(mWindow, &x, &y);
 
-    mCamera->rotate(glm::vec2(x, y));
-  }
+  mCamera->on_mouse_move(x, y, left_mouse == GLFW_PRESS, right_mouse == GLFW_PRESS);
+  
 }
 
 bool JGLWindow::load_mesh()

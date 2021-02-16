@@ -67,10 +67,21 @@ namespace nelems
 			return mViewMatrix;
 		}
 
-		void rotate(const glm::vec2& pos2d)
+		void on_mouse_move(double x, double y, bool left_press, bool right_press)
 		{
+			if (!right_press)
+			{
+				mRotateActive = false;
+				return;
+			}
+
+			glm::vec2 pos2d{ x, y };
+
 			if (!mRotateActive)
+			{
 				mCurrentPos2d = pos2d;
+				mRotateActive = true;
+			}
 
 			glm::vec2 delta = (pos2d - mCurrentPos2d) * 0.004f;
 			mCurrentPos2d = pos2d;
@@ -81,7 +92,6 @@ namespace nelems
 
 			update_view_matrix();
 			
-			mRotateActive = true;
 		}
 
 		void update_view_matrix()
