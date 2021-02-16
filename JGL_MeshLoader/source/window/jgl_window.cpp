@@ -50,10 +50,12 @@ bool JGLWindow::init(int width, int height, const std::string& title)
     mIsValid = false;
   }
 
+  glEnable(GL_DEPTH_TEST);
+
   auto aspect = (float)width / (float)height;
   mShader = std::make_unique<ShaderUtil>();
   mShader->load("shaders/vs.shader", "shaders/fs.shader");
-  mCamera = std::make_unique<Camera>(glm::vec3(0, 0.5, -4), 45.0f, aspect, 0.1f, 100.0f);
+  mCamera = std::make_unique<Camera>(glm::vec3(0, 0, -3), 45.0f, aspect, 0.1f, 100.0f);
   return mIsValid;
 }
 
@@ -99,8 +101,6 @@ void JGLWindow::render()
 {
   load_mesh();
 
-  glEnable(GL_DEPTH_TEST);
-
     /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(mWindow))
   {
@@ -138,12 +138,12 @@ void JGLWindow::render()
 
     if (glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS)
     {
-      mCamera->set_offset(glm::vec3(0, 0, 0.1));
+      mCamera->set_offset(glm::vec3(0, 0, -0.1));
     }
 
     if (glfwGetKey(mWindow, GLFW_KEY_S) == GLFW_PRESS)
     {
-      mCamera->set_offset(glm::vec3(0, 0, -0.1));
+      mCamera->set_offset(glm::vec3(0, 0, 0.1));
     }
   }
 

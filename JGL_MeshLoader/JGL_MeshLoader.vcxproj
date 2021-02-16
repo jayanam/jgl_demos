@@ -131,7 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\elems\face.cpp" />
-    <ClCompile Include="source\jgl_window.cpp" />
+    <ClCompile Include="source\window\jgl_window.cpp" />
     <ClCompile Include="source\elems\mesh.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
@@ -152,7 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\elems\face.h" />
-    <ClInclude Include="source\jgl_window.h" />
+    <ClInclude Include="source\window\jgl_window.h" />
     <ClInclude Include="source\elems\camera.h" />
     <ClInclude Include="source\elems\mesh.h" />
     <ClInclude Include="source\main.h" />

@@ -15,11 +15,8 @@ namespace nelems
 
   public:
 
-
-
     Mesh() = default;
     virtual ~Mesh();
-
 
     // Methods
     void add_vertex(glm::vec3 vertex) { mVertices.push_back(vertex);  }

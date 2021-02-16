@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "import_obj.h"
+#include "elems/vertex_holder.h"
+#include "utils/str_utils.h"
 
 namespace nmesh_import
 {
@@ -35,25 +37,20 @@ namespace nmesh_import
       // Faces
       else if (id == "f")
       {
-        // TODO: Add quads, now we just have tris, create a class to hold
-        // vertex, normal and UV
+        // TODO: Add quads, now we just have tris
+        // TODO: read indizes for normals and UVs
+        // TODO: Optimize data structure to cache indices (map)
         std::string v1, v2, v3;
+        ss_line >> v1 >> v2 >> v3;
 
-        uint32_t vertexIndex[3];
-        uint32_t normIdx[3];
-        uint32_t uvIdx[3];
+        uint32_t vert_idx[3];
+        vert_idx[0] = nutils::tokenize(v1, '/').at(0);
+        vert_idx[1] = nutils::tokenize(v2, '/').at(0);
+        vert_idx[2] = nutils::tokenize(v3, '/').at(0);
 
-        int count_found = sscanf_s(s_line.substr(2).c_str(), 
-          "%d/%d/%d %d/%d/%d %d/%d/%d\n", 
-          &vertexIndex[0], &uvIdx[0], &normIdx[0],
-          &vertexIndex[1], &uvIdx[1], &normIdx[1],
-          &vertexIndex[2], &uvIdx[2], &normIdx[2]);
-
-        if (count_found % 3 == 0) {
-          pMesh->add_vertex_index(vertexIndex[0] - 1);
-          pMesh->add_vertex_index(vertexIndex[1] - 1);
-          pMesh->add_vertex_index(vertexIndex[2] - 1);
-        }
+        pMesh->add_vertex_index(vert_idx[0] - 1);
+        pMesh->add_vertex_index(vert_idx[1] - 1);
+        pMesh->add_vertex_index(vert_idx[2] - 1);        
       }
     }
 
