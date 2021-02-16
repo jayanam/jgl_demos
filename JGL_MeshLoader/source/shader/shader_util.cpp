@@ -70,8 +70,8 @@ namespace nshaders
     glm::mat4 model{ 1.0f };
 
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->get_view()));
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera->get_perspective()));
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->get_view_matrix()));
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera->get_projection()));
   }
 
 	void ShaderUtil::unload()
