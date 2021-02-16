@@ -136,18 +136,32 @@ void JGLWindow::render()
 
     glfwPollEvents();
 
-    if (glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS)
-    {
-      mCamera->set_distance(-0.1);
-    }
-
-    if (glfwGetKey(mWindow, GLFW_KEY_S) == GLFW_PRESS)
-    {
-      mCamera->set_distance(0.1);
-    }
+    handle_input();
   }
 
   mShader->unload();
+}
+
+void JGLWindow::handle_input()
+{
+  if (glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS)
+  {
+    mCamera->set_distance(-0.1);
+  }
+
+  if (glfwGetKey(mWindow, GLFW_KEY_S) == GLFW_PRESS)
+  {
+    mCamera->set_distance(0.1);
+  }
+
+  // Left mouse button pressed
+  if (glfwGetMouseButton(mWindow, 0) == GLFW_PRESS)
+  {
+    double x, y;
+    glfwGetCursorPos(mWindow, &x, &y);
+
+    mCamera->rotate(glm::vec2(x, y));
+  }
 }
 
 bool JGLWindow::load_mesh()

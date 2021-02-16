@@ -31,6 +31,8 @@ public:
 
   void render();
 
+  void handle_input();
+
 
   void on_key(int key, int scancode, int action, int mods);
 

@@ -69,7 +69,10 @@ namespace nelems
 
 		void rotate(const glm::vec2& pos2d)
 		{
-			glm::vec2 delta = (pos2d - mCurrentPos2d) * 0.005f;
+			if (!mRotateActive)
+				mCurrentPos2d = pos2d;
+
+			glm::vec2 delta = (pos2d - mCurrentPos2d) * 0.004f;
 			mCurrentPos2d = pos2d;
 
 			float sign = get_up().y < 0 ? -1.0f : 1.0f;
@@ -77,6 +80,8 @@ namespace nelems
 			mPitch += delta.y * cRotationSpeed;
 
 			update_view_matrix();
+			
+			mRotateActive = true;
 		}
 
 		void update_view_matrix()
@@ -106,11 +111,13 @@ namespace nelems
 
 		glm::vec2 mCurrentPos2d = { 0.0f, 0.0f };
 
+		bool mRotateActive = false;
+
 		const glm::vec3 cRight = { 1.0f, 0.0f, -1.0f };
 		const glm::vec3 cUp = { 0.0f, 1.0f, 0.0f };
 		const glm::vec3 cForward = { 0.0f, 0.0f, -1.0f };
 
-		const float cRotationSpeed = 3.0f;
+		const float cRotationSpeed = 2.0f;
 
 	};
 }
