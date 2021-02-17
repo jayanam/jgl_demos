@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "jgl_window.h"
+//#include "assimp/Importer.hpp"
+//#include "assimp/postprocess.h"
+//#include "assimp/scene.h"
 
 // Global window callbacks
 static void on_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -174,6 +177,20 @@ void JGLWindow::handle_input()
 
 bool JGLWindow::load_mesh()
 {
+  //Assimp::Importer Importer;
+
+  //const aiScene* pScene = Importer.ReadFile(mModel.c_str(),
+  //  aiProcess_CalcTangentSpace |
+  //  aiProcess_Triangulate |
+  //  aiProcess_JoinIdenticalVertices |
+  //  aiProcess_SortByPType);
+
+  //if (pScene->HasMeshes())
+  //{
+  //  auto* mesh = pScene->mMeshes[0];
+
+  //}
+
   mMesh = std::make_unique<Mesh>();
 
   ObjMeshImporter objImporter;
