@@ -1,6 +1,7 @@
 #pragma once
 
 #include "elems/camera.h"
+#include "elems/light.h"
 
 namespace nshaders
 {
@@ -23,7 +24,9 @@ namespace nshaders
 		// Use the program
 		void use();
 
-    void update(const nelems::Camera* camera);
+    void update_camera(const nelems::Camera* camera);
+
+    void update_light(const nelems::Light* light);
 
 		// Delete the program
 		void unload();

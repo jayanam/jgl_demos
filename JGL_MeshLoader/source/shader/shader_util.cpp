@@ -61,7 +61,7 @@ namespace nshaders
 		glUseProgram(mProgramId);
 	}
 
-  void Shader::update(const nelems::Camera* camera)
+  void Shader::update_camera(const nelems::Camera* camera)
   {
     GLint modelLoc = glGetUniformLocation(mProgramId, "model");
     GLint viewLoc = glGetUniformLocation(mProgramId, "view");
@@ -72,6 +72,16 @@ namespace nshaders
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->get_view_matrix()));
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera->get_projection()));
+  }
+
+  void Shader::update_light(const nelems::Light* light)
+  {
+    GLint dirlightColLoc = glGetUniformLocation(mProgramId, "dirLight.color");
+    GLint dirLightStrengthLoc = glGetUniformLocation(mProgramId, "dirLight.strength");
+    const glm::vec3 lightColor = light->get_color();
+
+    glUniform3f(dirlightColLoc, lightColor.r, lightColor.g, lightColor.b);
+    glUniform1f(dirLightStrengthLoc, light->get_strength());
   }
 
 	void Shader::unload()

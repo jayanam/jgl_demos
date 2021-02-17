@@ -4,6 +4,7 @@
 #include "mesh_import/import_obj.h"
 #include "elems/mesh.h"
 #include "elems/camera.h"
+#include "elems/light.h"
 #include "shader/shader_util.h"
 
 using namespace nelems;
@@ -52,6 +53,8 @@ private:
   std::unique_ptr<Camera> mCamera;
 
   std::unique_ptr<Shader> mShader;
+
+  std::unique_ptr<Light> mLight;
 
   std::unique_ptr<Mesh> mMesh;
 

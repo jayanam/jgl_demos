@@ -55,7 +55,12 @@ bool JGLWindow::init(int width, int height, const std::string& title)
   auto aspect = (float)width / (float)height;
   mShader = std::make_unique<Shader>();
   mShader->load("shaders/vs.shader", "shaders/fs.shader");
+  
   mCamera = std::make_unique<Camera>(glm::vec3(0, 0, 3), 45.0f, aspect, 0.1f, 100.0f);
+
+  mLight = std::make_unique<Light>(0.0f, 0.5f, 1.0f, 5.0f);
+
+
   return mIsValid;
 }
 
@@ -105,7 +110,9 @@ void JGLWindow::render()
   while (!glfwWindowShouldClose(mWindow))
   {
     mShader->use();
-    mShader->update(mCamera.get());
+    mShader->update_camera(mCamera.get());
+
+    mShader->update_light(mLight.get());
 
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
