@@ -1,10 +1,5 @@
 #pragma once
 
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>
-
-//#include "mesh_import/import_obj.h"
 #include "elems/mesh.h"
 #include "elems/camera.h"
 #include "elems/light.h"
@@ -12,8 +7,6 @@
 
 using namespace nelems;
 using namespace nshaders;
-
-#include <cstdint>
 
 struct DrawFlags
 {
@@ -35,7 +28,6 @@ public:
   void render();
 
   void handle_input();
-
 
   void on_key(int key, int scancode, int action, int mods);
 

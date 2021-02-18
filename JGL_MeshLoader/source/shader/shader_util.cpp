@@ -3,8 +3,6 @@
 
 namespace nshaders
 {
-
-
 	unsigned int Shader::get_compiled_shader(unsigned int shader_type, const std::string& shader_source)
 	{
 		unsigned int shader_id = glCreateShader(shader_type);

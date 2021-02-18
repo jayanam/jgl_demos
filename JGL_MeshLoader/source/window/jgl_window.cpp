@@ -1,21 +1,23 @@
 #include "pch.h"
+
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
+
 #include "jgl_window.h"
 #include "elems/input.h"
 
-// Global window callbacks
 static void on_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
   JGLWindow* pWindow = static_cast<JGLWindow*>(glfwGetWindowUserPointer(window));
   pWindow->on_key(key, scancode, action, mods);
 }
 
-
 static void on_window_size_callback(GLFWwindow* window, int width, int height)
 {
   JGLWindow* pWindow = static_cast<JGLWindow*>(glfwGetWindowUserPointer(window));
   pWindow->on_resize(width, height);
 }
-
 
 bool JGLWindow::init(int width, int height, const std::string& title)
 {
