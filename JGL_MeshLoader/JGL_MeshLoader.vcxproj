@@ -89,6 +89,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)\libs\gl;$(ProjectDir)\libs\glfw;$(ProjectDir)\libs\assimp;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\elems\face.h" />
+    <ClInclude Include="source\elems\input.h" />
     <ClInclude Include="source\elems\light.h" />
     <ClInclude Include="source\elems\vertex_holder.h" />
     <ClInclude Include="source\window\jgl_window.h" />

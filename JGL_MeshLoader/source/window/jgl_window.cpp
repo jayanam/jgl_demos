@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "jgl_window.h"
+#include "elems/input.h"
 
 // Global window callbacks
 static void on_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -153,22 +154,23 @@ void JGLWindow::handle_input()
 {
   if (glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS)
   {
-    mCamera->set_distance(-0.1);
+    mCamera->set_distance(-0.1f);
   }
 
   if (glfwGetKey(mWindow, GLFW_KEY_S) == GLFW_PRESS)
   {
-    mCamera->set_distance(0.1);
+    mCamera->set_distance(0.1f);
   }
 
   // Left mouse button pressed
-  int left_mouse = glfwGetMouseButton(mWindow, 0);
-  int right_mouse = glfwGetMouseButton(mWindow, 1);
+  //int left_mouse = glfwGetMouseButton(mWindow, 0);
+  //int right_mouse = glfwGetMouseButton(mWindow, 1);
+  //int middle_mouse = glfwGetMouseButton(mWindow, 2);
   
   double x, y;
   glfwGetCursorPos(mWindow, &x, &y);
 
-  mCamera->on_mouse_move(x, y, left_mouse == GLFW_PRESS, right_mouse == GLFW_PRESS);
+  mCamera->on_mouse_move(x, y, Input::GetPressedButton(mWindow));
   
 }
 
@@ -188,7 +190,7 @@ bool JGLWindow::load_mesh()
 
     mMesh = std::make_unique<Mesh>();
 
-    for (int i = 0; i < mesh->mNumVertices; i++)
+    for (uint32_t i = 0; i < mesh->mNumVertices; i++)
     {
       glm::vec3 v = { mesh->mVertices[i].x, mesh->mVertices[i].y ,mesh->mVertices[i].z };
       mMesh->add_vertex(v);

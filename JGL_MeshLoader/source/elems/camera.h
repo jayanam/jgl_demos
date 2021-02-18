@@ -3,6 +3,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
+#include "input.h"
+
 namespace nelems
 {
 	class Camera
@@ -67,31 +69,32 @@ namespace nelems
 			return mViewMatrix;
 		}
 
-		void on_mouse_move(double x, double y, bool left_press, bool right_press)
+		void on_mouse_move(double x, double y, EInputButton button)
 		{
-			if (!right_press)
-			{
-				mRotateActive = false;
-				return;
-			}
-
 			glm::vec2 pos2d{ x, y };
 
-			if (!mRotateActive)
+			if (button == EInputButton::Right)
 			{
-				mCurrentPos2d = pos2d;
-				mRotateActive = true;
+				glm::vec2 delta = (pos2d - mCurrentPos2d) * 0.004f;
+
+				float sign = get_up().y < 0 ? -1.0f : 1.0f;
+				mYaw += sign * delta.x * cRotationSpeed;
+				mPitch += delta.y * cRotationSpeed;
+
+				update_view_matrix();
+			}	
+			else if (button == EInputButton::Middle)
+			{
+				// TODO: Adjust pan speed for distance
+				glm::vec2 delta = (pos2d - mCurrentPos2d) * 0.003f;
+
+				mFocus += -get_right() * delta.x * mDistance;
+				mFocus += get_up() * delta.y * mDistance;
+
+				update_view_matrix();
 			}
 
-			glm::vec2 delta = (pos2d - mCurrentPos2d) * 0.004f;
 			mCurrentPos2d = pos2d;
-
-			float sign = get_up().y < 0 ? -1.0f : 1.0f;
-			mYaw += sign * delta.x * cRotationSpeed;
-			mPitch += delta.y * cRotationSpeed;
-
-			update_view_matrix();
-			
 		}
 
 		void update_view_matrix()
@@ -121,9 +124,7 @@ namespace nelems
 
 		glm::vec2 mCurrentPos2d = { 0.0f, 0.0f };
 
-		bool mRotateActive = false;
-
-		const glm::vec3 cRight = { 1.0f, 0.0f, -1.0f };
+		const glm::vec3 cRight = { 1.0f, 0.0f, 0.0f };
 		const glm::vec3 cUp = { 0.0f, 1.0f, 0.0f };
 		const glm::vec3 cForward = { 0.0f, 0.0f, -1.0f };
 

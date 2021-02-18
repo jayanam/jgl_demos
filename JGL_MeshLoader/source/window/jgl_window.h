@@ -46,7 +46,7 @@ private:
   bool load_mesh();
 
   // Workaround til we have an input method
-  const std::string mModel = "Model.obj";
+  const std::string mModel = "model.obj";
 
   DrawFlags mDrawFlags;
 
