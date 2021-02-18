@@ -58,7 +58,7 @@ namespace nmesh_import
     for (auto v_idx : pMesh->GetVertexIndices())
     {
       glm::vec3 vertex = t_vert[v_idx];
-      pMesh->add_vertex(vertex);
+      //pMesh->add_vertex(vertex);
     }
     return true;
   }

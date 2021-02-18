@@ -1,14 +1,16 @@
 #pragma once
 
-#include "main.h"
-#include "mesh_import/import_obj.h"
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
+
+//#include "mesh_import/import_obj.h"
 #include "elems/mesh.h"
 #include "elems/camera.h"
 #include "elems/light.h"
 #include "shader/shader_util.h"
 
 using namespace nelems;
-using namespace nmesh_import;
 using namespace nshaders;
 
 #include <cstdint>

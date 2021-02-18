@@ -1,8 +1,5 @@
 #include "pch.h"
 #include "jgl_window.h"
-//#include "assimp/Importer.hpp"
-//#include "assimp/postprocess.h"
-//#include "assimp/scene.h"
 
 // Global window callbacks
 static void on_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -177,27 +174,33 @@ void JGLWindow::handle_input()
 
 bool JGLWindow::load_mesh()
 {
-  //Assimp::Importer Importer;
+  Assimp::Importer Importer;
 
-  //const aiScene* pScene = Importer.ReadFile(mModel.c_str(),
-  //  aiProcess_CalcTangentSpace |
-  //  aiProcess_Triangulate |
-  //  aiProcess_JoinIdenticalVertices |
-  //  aiProcess_SortByPType);
+  const aiScene* pScene = Importer.ReadFile(mModel.c_str(),
+    aiProcess_CalcTangentSpace |
+    aiProcess_Triangulate |
+    aiProcess_JoinIdenticalVertices |
+    aiProcess_SortByPType);
 
-  //if (pScene->HasMeshes())
-  //{
-  //  auto* mesh = pScene->mMeshes[0];
-
-  //}
-
-  mMesh = std::make_unique<Mesh>();
-
-  ObjMeshImporter objImporter;
-  if (!objImporter.from_file(mModel, mMesh.get()))
+  if (pScene->HasMeshes())
   {
-    fprintf(stderr, "Error: Model cant be loaded\n");
-    return false;
+    auto* mesh = pScene->mMeshes[0];
+
+    mMesh = std::make_unique<Mesh>();
+
+    for (int i = 0; i < mesh->mNumVertices; i++)
+    {
+      glm::vec3 v = { mesh->mVertices[i].x, mesh->mVertices[i].y ,mesh->mVertices[i].z };
+      mMesh->add_vertex(v);
+    }
+
+    for (size_t i = 0; i < mesh->mNumFaces; i++)
+    {
+      aiFace face = mesh->mFaces[i];
+
+      for (size_t j = 0; j < face.mNumIndices; j++)
+        mMesh->add_vertex_index(face.mIndices[j]);
+    }
   }
 
   mMesh->init();
