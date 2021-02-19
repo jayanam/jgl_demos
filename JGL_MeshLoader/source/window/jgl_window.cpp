@@ -61,8 +61,7 @@ bool JGLWindow::init(int width, int height, const std::string& title)
   
   mCamera = std::make_unique<Camera>(glm::vec3(0, 0, 3), 45.0f, aspect, 0.1f, 100.0f);
 
-  mLight = std::make_unique<Light>(0.0f, 0.8f, 2.0f, 1.0f);
-
+  mLight = std::make_unique<Light>(0.0f, 0.4f, 1.0f, 1.0f);
 
   return mIsValid;
 }
@@ -109,6 +108,9 @@ void JGLWindow::render()
 {
   load_mesh();
 
+  glm::vec4 vColor{ 0.7f, 0.1f, 0.1f, 1.0f };
+  mShader->set_vec4(vColor, "color");
+
     /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(mWindow))
   {
@@ -117,9 +119,7 @@ void JGLWindow::render()
 
     mShader->update_light(mLight.get());
 
-
-    glClearColor(0.1, 0.1, 0.1, 1);
-
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (mMesh)
@@ -127,20 +127,7 @@ void JGLWindow::render()
       // Draw the mesh
       if (mDrawFlags.draw_faces)
       {
-        glEnable(GL_POLYGON_OFFSET_FILL);
-        glPolygonOffset(1.0f, 1.0f);
-
-        glm::vec4 vColor{ 0.7f, 0.1f, 0.1f, 1.0f };
-        mShader->set_vec4(vColor, "color");
         mMesh->draw_faces();
-        glDisable(GL_POLYGON_OFFSET_FILL);
-      }
-
-      if (mDrawFlags.draw_edges)
-      {
-        glm::vec4 vColor{ 1.0f, 1.0f, 1.0f, 1.0f };
-        mShader->set_vec4(vColor, "color");
-        mMesh->draw_wireframe();
       }
     }
 
@@ -165,12 +152,7 @@ void JGLWindow::handle_input()
   {
     mCamera->set_distance(0.1f);
   }
-
-  // Left mouse button pressed
-  //int left_mouse = glfwGetMouseButton(mWindow, 0);
-  //int right_mouse = glfwGetMouseButton(mWindow, 1);
-  //int middle_mouse = glfwGetMouseButton(mWindow, 2);
-  
+ 
   double x, y;
   glfwGetCursorPos(mWindow, &x, &y);
 
