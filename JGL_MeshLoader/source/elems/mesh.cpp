@@ -41,11 +41,11 @@ namespace nelems
   {
     // TODO: Special method to see the wireframe
     // Can be moved to shader e.g. ?
-    bind();
+    //bind();
 
-    glDrawElements(GL_POINTS, (GLsizei) mVertexIndices.size(), GL_UNSIGNED_INT, nullptr);
+    //glDrawElements(GL_POINTS, (GLsizei) mVertexIndices.size(), GL_UNSIGNED_INT, nullptr);
 
-    unbind();
+    //unbind();
   }
 
   void Mesh::draw_faces()
