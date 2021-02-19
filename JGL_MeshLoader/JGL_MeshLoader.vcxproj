@@ -159,6 +159,7 @@
     <ClInclude Include="source\elems\light.h" />
     <ClInclude Include="source\elems\vertex_holder.h" />
     <ClInclude Include="source\render\opengl_buffer_manager.h" />
+    <ClInclude Include="source\render\render_base.h" />
     <ClInclude Include="source\utils\str_utils.h" />
     <ClInclude Include="source\window\jgl_window.h" />
     <ClInclude Include="source\elems\camera.h" />
@@ -168,6 +169,10 @@
     <ClInclude Include="source\mesh_import\import_obj.h" />
     <ClInclude Include="source\pch.h" />
     <ClInclude Include="source\shader\shader_util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\fs.shader" />
+    <None Include="shaders\vs.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

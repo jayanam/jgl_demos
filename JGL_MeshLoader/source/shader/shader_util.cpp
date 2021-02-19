@@ -75,10 +75,13 @@ namespace nshaders
   void Shader::update_light(const nelems::Light* light)
   {
     GLint dirlightColLoc = glGetUniformLocation(mProgramId, "dirLight.color");
+    GLint dirlightPosLoc = glGetUniformLocation(mProgramId, "dirLight.position");
     GLint dirLightStrengthLoc = glGetUniformLocation(mProgramId, "dirLight.strength");
     const glm::vec3 lightColor = light->get_color();
+    const glm::vec3 lightPos = light->get_position();
 
     glUniform3f(dirlightColLoc, lightColor.r, lightColor.g, lightColor.b);
+    glUniform3f(dirlightPosLoc, lightPos.x, lightColor.y, lightColor.z);
     glUniform1f(dirLightStrengthLoc, light->get_strength());
   }
 

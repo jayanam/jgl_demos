@@ -61,7 +61,7 @@ bool JGLWindow::init(int width, int height, const std::string& title)
   
   mCamera = std::make_unique<Camera>(glm::vec3(0, 0, 3), 45.0f, aspect, 0.1f, 100.0f);
 
-  mLight = std::make_unique<Light>(0.0f, 0.5f, 1.0f, 5.0f);
+  mLight = std::make_unique<Light>(0.0f, 0.8f, 2.0f, 1.0f);
 
 
   return mIsValid;
@@ -117,7 +117,9 @@ void JGLWindow::render()
 
     mShader->update_light(mLight.get());
 
-    /* Render here */
+
+    glClearColor(0.1, 0.1, 0.1, 1);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (mMesh)
@@ -194,8 +196,11 @@ bool JGLWindow::load_mesh()
 
     for (uint32_t i = 0; i < mesh->mNumVertices; i++)
     {
-      glm::vec3 v = { mesh->mVertices[i].x, mesh->mVertices[i].y ,mesh->mVertices[i].z };
-      mMesh->add_vertex(v);
+      VertexHolder vh;
+      vh.mPos    = { mesh->mVertices[i].x, mesh->mVertices[i].y ,mesh->mVertices[i].z };
+      vh.mNormal = { mesh->mNormals[i].x, mesh->mNormals[i].y ,mesh->mNormals[i].z };
+
+      mMesh->add_vertex(vh);
     }
 
     for (size_t i = 0; i < mesh->mNumFaces; i++)

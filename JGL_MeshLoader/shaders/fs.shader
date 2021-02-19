@@ -1,20 +1,34 @@
 #version 330
 
-in vec4 colorV;
+uniform mat4 model;
 
-out vec4 outputF;
+in vec4 colorV;
 
 struct DirLight
 {
+  vec3 position;
   vec3 color;
   float strength;
 };
 
 uniform DirLight dirLight;
 
-void main ()  
-{  
-  vec4 lightColor = vec4(dirLight.color, 1.0f) * dirLight.strength;
+in vec3 FragPos;
 
-  outputF = colorV * lightColor;
+in vec3 FragNormal;
+
+out vec4 FragOutput;
+
+
+void main ()  
+{
+  mat3 normalMatrix = transpose(inverse(mat3(model)));
+
+  vec3 normal = normalize(normalMatrix * FragNormal);
+
+  vec3 sub_from_light = dirLight.position - vec3(model * vec4(FragPos, 1));
+
+  float luminance = dot(normal, sub_from_light) / (length(sub_from_light) * length(normal));
+
+  FragOutput = vec4(luminance * dirLight.color, 1.0f) * dirLight.strength;
 }

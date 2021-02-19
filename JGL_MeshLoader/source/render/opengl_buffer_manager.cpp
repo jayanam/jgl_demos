@@ -1,40 +1,62 @@
 #include "pch.h"
 #include "opengl_buffer_manager.h"
-
-
-void OpenGL_Buffer_Manager::create_buffers(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices)
+#
+namespace nrender
 {
-  glGenVertexArrays(1, &mVAO);
 
-  glGenBuffers(1, &mIBO);
-  glGenBuffers(1, &mVBO);
+  void OpenGL_BufferManager::create_buffers(const std::vector<nelems::VertexHolder>& vertices, const std::vector<unsigned int>& indices)
+  {
+    glGenVertexArrays(1, &mVAO);
 
-  glBindVertexArray(mVAO);
+    glGenBuffers(1, &mIBO);
+    glGenBuffers(1, &mVBO);
 
-  // Load data into vertex buffers
-  glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+    glBindVertexArray(mVAO);
 
-  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(nelems::VertexHolder), vertices.data(), GL_STATIC_DRAW);
 
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
 
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-  glBindVertexArray(0);
-  glDisableVertexAttribArray(0);
-}
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(nelems::VertexHolder), (void*)0);
 
-void OpenGL_Buffer_Manager::bind_buffers()
-{
-  glBindVertexArray(mVAO);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-}
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(nelems::VertexHolder), (void*)offsetof(nelems::VertexHolder, mNormal));
 
-void OpenGL_Buffer_Manager::unbind_buffers()
-{
-  glBindVertexArray(0);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+  }
+
+  void OpenGL_BufferManager::delete_buffers()
+  {
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glDeleteBuffers(1, &mIBO);
+    glDeleteBuffers(1, &mVBO);
+    glDeleteVertexArrays(1, &mVAO);
+  }
+
+  void OpenGL_BufferManager::bind()
+  {
+    glBindVertexArray(mVAO);
+  }
+
+  void OpenGL_BufferManager::unbind()
+  {
+    glBindVertexArray(0);
+  }
+
+  void OpenGL_BufferManager::draw(int index_count)
+  {
+    bind();
+
+    // the vertices as line loop
+    glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, nullptr);
+
+    unbind();
+  }
 }

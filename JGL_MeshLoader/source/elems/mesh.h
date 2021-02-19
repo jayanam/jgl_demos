@@ -2,6 +2,9 @@
 
 #include "pch.h"
 
+#include "render/render_base.h"
+#include "vertex_holder.h"
+
 namespace nelems
 {
   class Mesh
@@ -9,17 +12,16 @@ namespace nelems
     
   public:
 
-    Mesh() : mVBO{0}, mVAO{0}, mIBO{0}
-    {
-    }
+    Mesh() = default;
 
     virtual ~Mesh();
 
-    void add_vertex(const glm::vec3& vertex) { mVertices.push_back(vertex);  }
+    void add_vertex(const VertexHolder& vertex) { mVertices.push_back(vertex);  }
 
     void add_vertex_index(unsigned int vertex_idx) { mVertexIndices.push_back(vertex_idx); }
 
-    std::vector<GLuint> GetVertexIndices() { return mVertexIndices; }
+    std::vector<unsigned int> get_vertex_indices() { return mVertexIndices; }
+
 
     void init();
 
@@ -31,20 +33,18 @@ namespace nelems
 
     void draw_faces();
 
-    void bind_buffers();
+    void bind();
 
-    void unbind_buffers();
+    void unbind();
 
   private:
     
-    // Buffers
-    GLuint mVBO;
-    GLuint mVAO;
-    GLuint mIBO;
-
+    // Buffers manager
+    std::unique_ptr<nrender::RenderBufferManager> mRenderBufferMgr;
+    
     // Vertices and indices
-    std::vector<glm::vec3> mVertices;
-    std::vector<GLuint> mVertexIndices;
+    std::vector<VertexHolder> mVertices;
+    std::vector<unsigned int> mVertexIndices;
 
   };
 }

@@ -55,7 +55,7 @@ namespace nmesh_import
     }
 
     // Now use the indices to create the concrete vertices for the mesh
-    for (auto v_idx : pMesh->GetVertexIndices())
+    for (auto v_idx : pMesh->get_vertex_indices())
     {
       glm::vec3 vertex = t_vert[v_idx];
       //pMesh->add_vertex(vertex);

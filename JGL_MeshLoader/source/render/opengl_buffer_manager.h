@@ -2,20 +2,25 @@
 
 #include "pch.h"
 
-class OpenGL_Buffer_Manager
+#include "render_base.h"
+
+namespace nrender
 {
-public:
-  OpenGL_Buffer_Manager() : mVBO{ 0 }, mVAO{ 0 }, mIBO{ 0 }
-  {}
+  class OpenGL_BufferManager : public RenderBufferManager
+  {
+  public:
+    OpenGL_BufferManager() : RenderBufferManager()
+    {}
 
-  void create_buffers(const std::vector<glm::vec3>& vertices, const std::vector<GLuint>& indices);
+    void create_buffers(const std::vector<nelems::VertexHolder>& vertices, const std::vector<unsigned int>& indices) override;
 
-  void bind_buffers();
+    void delete_buffers() override;
 
-  void unbind_buffers();
+    void bind() override;
 
-private:
-  GLuint mVBO;
-  GLuint mVAO;
-  GLuint mIBO;
-};
+    void unbind() override;
+
+    void draw(int index_count) override;
+
+  };
+}

@@ -1,11 +1,14 @@
 #include "pch.h"
 #include "mesh.h"
 
+#include "render/opengl_buffer_manager.h"
+
 namespace nelems
 {
-
   void Mesh::init()
   {
+    mRenderBufferMgr = std::make_unique<nrender::OpenGL_BufferManager>();
+
     create_buffers();
   }
 
@@ -16,65 +19,37 @@ namespace nelems
 
   void Mesh::create_buffers()
   {
-    glGenVertexArrays(1, &mVAO);
-
-    glGenBuffers(1, &mIBO);
-    glGenBuffers(1, &this->mVBO);
-
-    glBindVertexArray(mVAO);
-
-    // Load data into vertex buffers
-    glBindBuffer(GL_ARRAY_BUFFER, this->mVBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mIBO);
-
-    glBufferData(GL_ARRAY_BUFFER, this->mVertices.size() * sizeof(glm::vec3), mVertices.data(), GL_STATIC_DRAW);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->mVertexIndices.size() * sizeof(GLuint), mVertexIndices.data(), GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-    glDisableVertexAttribArray(0);
+    mRenderBufferMgr->create_buffers(mVertices, mVertexIndices);
   }
 
   void Mesh::delete_buffers()
   {
-    glDisableVertexAttribArray(0);
-    glDeleteBuffers(1, &mIBO);
-    glDeleteBuffers(1, &mVBO);
-    glDeleteVertexArrays(1, &mVAO);
+    mRenderBufferMgr->delete_buffers();
   }
 
-  void Mesh::bind_buffers()
+  void Mesh::bind()
   {
-    glBindVertexArray(mVAO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mIBO);
+    mRenderBufferMgr->bind();
   }
 
-  void Mesh::unbind_buffers()
+  void Mesh::unbind()
   {
-    glBindVertexArray(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    mRenderBufferMgr->unbind();
   }
 
   void Mesh::draw_wireframe()
   {
-    bind_buffers();
+    // TODO: Special method to see the wireframe
+    // Can be moved to shader e.g. ?
+    bind();
 
     glDrawElements(GL_POINTS, (GLsizei) mVertexIndices.size(), GL_UNSIGNED_INT, nullptr);
 
-    unbind_buffers();
+    unbind();
   }
 
   void Mesh::draw_faces()
   {
-    bind_buffers();
-
-    // the vertices as line loop
-    glDrawElements(GL_TRIANGLES, (GLsizei) mVertexIndices.size(), GL_UNSIGNED_INT, nullptr);
-   
-    unbind_buffers();
+    mRenderBufferMgr->draw((int) mVertexIndices.size());
   }
 }
