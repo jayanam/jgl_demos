@@ -16,7 +16,7 @@ public:
 private:
   static Application* s_instance;
 
-  std::unique_ptr<nwindow::JGLWindow> mWindow;
+  std::unique_ptr<nwindow::GLWindow> mWindow;
 
   std::unique_ptr<nelems::Camera> mCamera;
 };

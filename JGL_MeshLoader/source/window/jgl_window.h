@@ -20,18 +20,18 @@ using namespace nshaders;
 
 namespace nwindow
 {
-  class JGLWindow : public IWindow
+  class GLWindow : public IWindow
   {
   public:
 
-    JGLWindow() :
+    GLWindow() :
       mIsRunning(true), mWindow(nullptr)
     {
       mUICtx = std::make_unique<UIContext>();
       mRenderCtx = std::make_unique<OpenGL_Context>();
     }
 
-    ~JGLWindow();
+    ~GLWindow();
 
     bool init(int width, int height, const std::string& title);
 

@@ -10,7 +10,7 @@
 
 namespace nwindow
 {
-  bool JGLWindow::init(int width, int height, const std::string& title)
+  bool GLWindow::init(int width, int height, const std::string& title)
   {
     Width = width;
     Height = height;
@@ -35,7 +35,7 @@ namespace nwindow
     return mIsRunning;
   }
 
-  JGLWindow::~JGLWindow()
+  GLWindow::~GLWindow()
   {
     mUICtx->end();
 
@@ -49,7 +49,7 @@ namespace nwindow
     }
   }
 
-  void JGLWindow::on_resize(int width, int height)
+  void GLWindow::on_resize(int width, int height)
   {
     Width = width;
     Height = height;
@@ -59,19 +59,19 @@ namespace nwindow
     render();
   }
 
-  void JGLWindow::on_key(int key, int scancode, int action, int mods)
+  void GLWindow::on_key(int key, int scancode, int action, int mods)
   {
     if (action == GLFW_PRESS)
     {
     }
   }
 
-  void JGLWindow::on_close()
+  void GLWindow::on_close()
   {
     mIsRunning = false;
   }
 
-  void JGLWindow::render()
+  void GLWindow::render()
   {
     mCamera->update(mShader.get());
 
@@ -97,7 +97,7 @@ namespace nwindow
 
   }
 
-  void JGLWindow::handle_input()
+  void GLWindow::handle_input()
   {
     if (glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS)
     {
@@ -116,7 +116,7 @@ namespace nwindow
 
   }
 
-  bool JGLWindow::load_mesh()
+  bool GLWindow::load_mesh()
   {
     Assimp::Importer Importer;
 
