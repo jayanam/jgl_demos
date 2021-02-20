@@ -6,6 +6,9 @@
 #include "shader/shader_util.h"
 
 #include "render/ui_context.h"
+#include "render/opengl_context.h"
+
+#include "window/window.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -15,55 +18,67 @@ using namespace nelems;
 using namespace nrender;
 using namespace nshaders;
 
-class JGLWindow
+namespace nwindow
 {
-public:
-
-  JGLWindow() : 
-    mIsRunning(true), mWindow(nullptr), mWidth(0), mHeight(0)
+  class JGLWindow : public IWindow
   {
-    mUICtx = std::make_unique<UIContext>();
-  }
+  public:
 
-  ~JGLWindow();
-   
-  bool init(int width, int height, const std::string& title);
+    JGLWindow() :
+      mIsRunning(true), mWindow(nullptr)
+    {
+      mUICtx = std::make_unique<UIContext>();
+      mRenderCtx = std::make_unique<OpenGL_Context>();
+    }
 
-  void render();
+    ~JGLWindow();
 
-  void handle_input();
+    bool init(int width, int height, const std::string& title);
 
-  void on_key(int key, int scancode, int action, int mods);
+    void render();
 
-  void on_resize(int width, int height);
+    void handle_input();
 
-  void on_close();
+    void* get_native_window() override { return mWindow; }
 
-  bool is_running() { return mIsRunning;  }
+    void set_native_window(void* window)
+    {
+      mWindow = (GLFWwindow*)window;
+    }
 
-private:
+    void on_key(int key, int scancode, int action, int mods) override;
 
-  bool load_mesh();
+    void on_resize(int width, int height) override;
 
-  // Workaround til we have an input method
-  const std::string mModel = "model.obj";
+    void on_close() override;
 
-  GLFWwindow* mWindow;
+    bool is_running() { return mIsRunning; }
 
-  std::unique_ptr<Camera> mCamera;
 
-  std::unique_ptr<Shader> mShader;
+  private:
 
-  std::unique_ptr<Light> mLight;
+    bool load_mesh();
 
-  std::unique_ptr<Mesh> mMesh;
+    // Workaround til we have an input method
+    const std::string mModel = "model.obj";
 
-  std::unique_ptr<UIContext> mUICtx;
+    GLFWwindow* mWindow;
 
-  int mWidth, mHeight;
+    std::unique_ptr<Camera> mCamera;
 
-  bool mIsRunning;
+    std::unique_ptr<Shader> mShader;
 
-};
+    std::unique_ptr<Light> mLight;
+
+    std::unique_ptr<Mesh> mMesh;
+
+    std::unique_ptr<UIContext> mUICtx;
+
+    std::unique_ptr<OpenGL_Context> mRenderCtx;
+
+    bool mIsRunning;
+
+  };
+}
 
 

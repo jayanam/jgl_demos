@@ -2,6 +2,8 @@
 
 #include "elems/vertex_holder.h"
 
+#include "window/window.h"
+
 namespace nrender
 {
   class RenderBufferManager
@@ -33,16 +35,19 @@ namespace nrender
 
     RenderContext() : mWindow(nullptr) {}
 
-    virtual void init(GLFWwindow* window)
+    virtual bool init(nwindow::IWindow* window)
     {
       mWindow = window;
+      return true;
     }
 
-    virtual void render() = 0;
+    virtual void pre_render() = 0;
+
+    virtual void post_render() = 0;
 
     virtual void end() = 0;
 
   protected:
-    GLFWwindow* mWindow;
+    nwindow::IWindow* mWindow;
   };
 }

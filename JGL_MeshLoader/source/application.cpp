@@ -6,8 +6,9 @@
 
 Application::Application(const std::string& app_name)
 {
-  mWindow = std::make_unique<JGLWindow>();
+  mWindow = std::make_unique<nwindow::JGLWindow>();
   mWindow->init(800, 600, app_name);
+
 }
 
 void Application::loop()

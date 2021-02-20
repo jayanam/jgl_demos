@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\render\opengl_context.cpp" />
     <ClCompile Include="source\application.cpp" />
     <ClCompile Include="source\elems\element.cpp" />
     <ClCompile Include="source\3rdparty\imgui-docking\backends\imgui_impl_glfw.cpp">
@@ -178,6 +179,7 @@
     <ClCompile Include="source\shader\shader_util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\render\opengl_context.h" />
     <ClInclude Include="source\application.h" />
     <ClInclude Include="source\elems\element.h" />
     <ClInclude Include="source\elems\face.h" />
@@ -196,6 +198,7 @@
     <ClInclude Include="source\mesh_import\import_obj.h" />
     <ClInclude Include="source\pch.h" />
     <ClInclude Include="source\shader\shader_util.h" />
+    <ClInclude Include="source\window\window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\3rdparty\assimp\LICENSE" />

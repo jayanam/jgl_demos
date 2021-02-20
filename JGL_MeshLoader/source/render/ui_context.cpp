@@ -9,7 +9,7 @@
 namespace nrender
 {
 
-  void UIContext::init(GLFWwindow* window)
+  bool UIContext::init(nwindow::IWindow* window)
   {
     __super::init(window);
 
@@ -36,11 +36,12 @@ namespace nrender
     }
 
     // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(mWindow, true);
+    ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)mWindow->get_native_window(), true);
     ImGui_ImplOpenGL3_Init(glsl_version);
+    return true;
   }
 
-  void UIContext::render()
+  void UIContext::pre_render()
   {
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
@@ -71,7 +72,7 @@ namespace nrender
     // Create the windows
     ImGui::Begin("Camera");
     ImGui::Text("Position");
-    ImGui::SliderFloat("X: ", &mPosx, 0.0f, 1.0f);
+    //ImGui::SliderFloat("X: ", &mPosx, 0.0f, 1.0f);
     ImGui::End();
 
     ImGui::Begin("Light");
@@ -80,7 +81,10 @@ namespace nrender
 
     ImGui::End();
 
+  }
 
+  void UIContext::post_render()
+  {
     // Rendering
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

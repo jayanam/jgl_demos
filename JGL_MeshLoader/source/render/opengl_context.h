@@ -4,9 +4,8 @@
 
 namespace nrender
 {
-  class UIContext : public RenderContext
+  class OpenGL_Context : public RenderContext
   {
-
   public:
 
     bool init(nwindow::IWindow* window) override;
@@ -16,6 +15,5 @@ namespace nrender
     void post_render() override;
 
     void end() override;
-
   };
 }

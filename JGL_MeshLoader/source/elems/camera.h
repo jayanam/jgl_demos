@@ -12,6 +12,7 @@ namespace nelems
 	class Camera : public Element
 	{
 	public:
+
 		Camera(const glm::vec3& position, float fov, float aspect, float near, float far)
 		{
 			mPosition = position;
@@ -31,18 +32,6 @@ namespace nelems
 			shader->set_mat4(model, "model");
 			shader->set_mat4(mViewMatrix, "view");
 			shader->set_mat4(get_projection(), "projection");
-
-
-			//shader->
-		/*	GLint modelLoc = glGetUniformLocation(mProgramId, "model");
-			GLint viewLoc = glGetUniformLocation(mProgramId, "view");
-			GLint projLoc = glGetUniformLocation(mProgramId, "projection");
-
-			
-
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->get_view_matrix()));
-			glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera->get_projection()));*/
 		}
 
     void set_aspect(float aspect)
