@@ -47,7 +47,7 @@ namespace nrender
 
   void OpenGL_BufferManager::unbind()
   {
-    glBindVertexArray(0);
+     glBindVertexArray(0);
   }
 
   void OpenGL_BufferManager::draw(int index_count)

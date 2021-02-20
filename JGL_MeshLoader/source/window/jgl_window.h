@@ -5,6 +5,10 @@
 #include "elems/light.h"
 #include "shader/shader_util.h"
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 using namespace nelems;
 using namespace nshaders;
 
@@ -22,7 +26,7 @@ public:
   {}
 
   ~JGLWindow();
-
+   
   bool init(int width, int height, const std::string& title);
 
   void render();
@@ -38,9 +42,7 @@ private:
   bool load_mesh();
 
   // Workaround til we have an input method
-  const std::string mModel = "model.fbx";
-
-  DrawFlags mDrawFlags;
+  const std::string mModel = "model.obj";
 
   GLFWwindow* mWindow;
 
@@ -51,6 +53,8 @@ private:
   std::unique_ptr<Light> mLight;
 
   std::unique_ptr<Mesh> mMesh;
+
+  int mWidth, mHeight;
 
   bool mIsValid;
 
