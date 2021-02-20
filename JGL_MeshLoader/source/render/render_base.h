@@ -25,4 +25,24 @@ namespace nrender
     GLuint mVAO;
     GLuint mIBO;
   };
+
+  class RenderContext
+  {
+
+  public:
+
+    RenderContext() : mWindow(nullptr) {}
+
+    virtual void init(GLFWwindow* window)
+    {
+      mWindow = window;
+    }
+
+    virtual void render() = 0;
+
+    virtual void end() = 0;
+
+  protected:
+    GLFWwindow* mWindow;
+  };
 }

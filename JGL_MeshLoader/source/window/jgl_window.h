@@ -5,25 +5,25 @@
 #include "elems/light.h"
 #include "shader/shader_util.h"
 
+#include "render/ui_context.h"
+
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
 using namespace nelems;
+using namespace nrender;
 using namespace nshaders;
-
-struct DrawFlags
-{
-  bool draw_edges = true;
-  bool draw_faces = true;
-};
 
 class JGLWindow
 {
 public:
 
-  JGLWindow() : mIsValid(false), mWindow(nullptr)
-  {}
+  JGLWindow() : 
+    mIsValid(false), mWindow(nullptr), mWidth(0), mHeight(0)
+  {
+    mUICtx = std::make_unique<UIContext>();
+  }
 
   ~JGLWindow();
    
@@ -53,6 +53,8 @@ private:
   std::unique_ptr<Light> mLight;
 
   std::unique_ptr<Mesh> mMesh;
+
+  std::unique_ptr<UIContext> mUICtx;
 
   int mWidth, mHeight;
 

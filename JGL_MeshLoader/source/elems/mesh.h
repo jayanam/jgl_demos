@@ -29,9 +29,7 @@ namespace nelems
 
     void delete_buffers();
 
-    void draw_wireframe();
-
-    void draw_faces();
+    void render();
 
     void bind();
 

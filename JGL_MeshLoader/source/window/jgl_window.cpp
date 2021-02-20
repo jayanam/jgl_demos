@@ -33,9 +33,6 @@ bool JGLWindow::init(int width, int height, const std::string& title)
     mIsValid = false;
   }
 
-  // GL 3.0 + GLSL 130
-  const char* glsl_version = "#version 410";
-
   // Create the window and store this window as window pointer
   // so that we can use it in callback functions
   mWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
@@ -53,6 +50,7 @@ bool JGLWindow::init(int width, int height, const std::string& title)
   
   glfwSwapInterval(1); // Enable vsync
 
+
   GLenum err = glewInit();
   if (GLEW_OK != err)
   {
@@ -61,30 +59,12 @@ bool JGLWindow::init(int width, int height, const std::string& title)
     mIsValid = false;
   }
 
-  // Setup Dear ImGui context
-  IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
-
-  ImGuiIO& io = ImGui::GetIO(); (void)io;
-  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
-  //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
-
-  ImGui::StyleColorsDark();
-
-  ImGuiStyle& style = ImGui::GetStyle();
-  if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-  {
-    style.WindowRounding = 0.0f;
-    style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-  }
-
-  // Setup Platform/Renderer backends
-  ImGui_ImplGlfw_InitForOpenGL(mWindow, true);
-  ImGui_ImplOpenGL3_Init(glsl_version);
-
   glEnable(GL_DEPTH_TEST);
+
+  mUICtx->init(mWindow);
+
+  // GL 3.0 + GLSL 130
+  const char* glsl_version = "#version 410";
 
   auto aspect = (float)width / (float)height;
   mShader = std::make_unique<Shader>();
@@ -94,15 +74,12 @@ bool JGLWindow::init(int width, int height, const std::string& title)
 
   mLight = std::make_unique<Light>(0.0f, 0.4f, 1.0f, 1.0f);
 
-
   return mIsValid;
 }
 
 JGLWindow::~JGLWindow()
 {
-  ImGui_ImplOpenGL3_Shutdown();
-  ImGui_ImplGlfw_Shutdown();
-  ImGui::DestroyContext();
+  mUICtx->end();
 
   if (mIsValid)
   {
@@ -146,75 +123,28 @@ void JGLWindow::render()
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(mWindow))
   {
+    // Open GL render context / frame
+    // TODO: Move to OpenGL render context
     glViewport(0, 0, mWidth, mHeight);
-
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // TODO: Vice versa: the elements have to know their shader
     mShader->update_camera(mCamera.get());
-
     mShader->update_light(mLight.get());
 
-
+    // TODO: render all meshes / models here
     if (mMesh)
     {
-      mMesh->draw_faces();
+      mMesh->render();
     }
 
-    // Start the Dear ImGui frame
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
-    /// *************************
-    ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
-      ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-      ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus |
-      ImGuiWindowFlags_NoBackground;
-
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
-    ImGui::SetNextWindowPos(viewport->Pos);
-    ImGui::SetNextWindowSize(viewport->Size);
-    ImGui::SetNextWindowViewport(viewport->ID);
-
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-    ImGui::Begin("InvisibleWindow", nullptr, windowFlags); 
-    ImGui::PopStyleVar(3);
-
-    ImGuiID dockSpaceId = ImGui::GetID("InvisibleWindowDockSpace");
-
-    ImGui::DockSpace(dockSpaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
-
-    ImGui::Begin("Stats");
-    ImGui::Text("Renderer2D Stats:");
-    ImGui::End();
-
-    ImGui::End();
-    /// *************************
-   
-    ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize = ImVec2((float)mWidth, (float)mHeight);
-
-    // Rendering
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-      GLFWwindow* backup_current_context = glfwGetCurrentContext();
-      ImGui::UpdatePlatformWindows();
-      ImGui::RenderPlatformWindowsDefault();
-      glfwMakeContextCurrent(backup_current_context);
-    }
+    mUICtx->render();
 
     handle_input();
 
     glfwPollEvents();
-
     glfwSwapBuffers(mWindow);
-
   }
 
   mShader->unload();

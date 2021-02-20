@@ -155,6 +155,7 @@
     <ClCompile Include="source\elems\face.cpp" />
     <ClCompile Include="source\elems\vertex_holder.cpp" />
     <ClCompile Include="source\render\opengl_buffer_manager.cpp" />
+    <ClCompile Include="source\render\ui_context.cpp" />
     <ClCompile Include="source\window\jgl_window.cpp" />
     <ClCompile Include="source\elems\mesh.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
@@ -179,8 +180,10 @@
     <ClInclude Include="source\elems\input.h" />
     <ClInclude Include="source\elems\light.h" />
     <ClInclude Include="source\elems\vertex_holder.h" />
+    <ClInclude Include="source\render\context.h" />
     <ClInclude Include="source\render\opengl_buffer_manager.h" />
     <ClInclude Include="source\render\render_base.h" />
+    <ClInclude Include="source\render\ui_context.h" />
     <ClInclude Include="source\utils\str_utils.h" />
     <ClInclude Include="source\window\jgl_window.h" />
     <ClInclude Include="source\elems\camera.h" />

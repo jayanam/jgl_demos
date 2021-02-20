@@ -37,18 +37,7 @@ namespace nelems
     mRenderBufferMgr->unbind();
   }
 
-  void Mesh::draw_wireframe()
-  {
-    // TODO: Special method to see the wireframe
-    // Can be moved to shader e.g. ?
-    //bind();
-
-    //glDrawElements(GL_POINTS, (GLsizei) mVertexIndices.size(), GL_UNSIGNED_INT, nullptr);
-
-    //unbind();
-  }
-
-  void Mesh::draw_faces()
+  void Mesh::render()
   {
     mRenderBufferMgr->draw((int) mVertexIndices.size());
   }
