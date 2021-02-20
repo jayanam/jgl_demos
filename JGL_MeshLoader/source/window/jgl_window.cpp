@@ -118,8 +118,6 @@ void JGLWindow::render()
   glm::vec4 vColor{ 0.7f, 0.1f, 0.1f, 1.0f };
   mShader->set_vec4(vColor, "color");
 
-  bool show_demo_window = false;
-
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(mWindow))
   {

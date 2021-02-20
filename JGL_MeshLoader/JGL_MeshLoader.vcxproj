@@ -180,7 +180,6 @@
     <ClInclude Include="source\elems\input.h" />
     <ClInclude Include="source\elems\light.h" />
     <ClInclude Include="source\elems\vertex_holder.h" />
-    <ClInclude Include="source\render\context.h" />
     <ClInclude Include="source\render\opengl_buffer_manager.h" />
     <ClInclude Include="source\render\render_base.h" />
     <ClInclude Include="source\render\ui_context.h" />
