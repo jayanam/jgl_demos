@@ -4,10 +4,12 @@
 #include <glm/gtx/quaternion.hpp>
 
 #include "input.h"
+#include "element.h"
+#include "shader/shader_util.h"
 
 namespace nelems
 {
-	class Camera
+	class Camera : public Element
 	{
 	public:
 		Camera(const glm::vec3& position, float fov, float aspect, float near, float far)
@@ -21,6 +23,26 @@ namespace nelems
 			set_aspect(mAspect);
 
 			update_view_matrix();
+		}
+
+		void update(nshaders::Shader* shader) override
+		{
+			glm::mat4 model{ 1.0f };
+			shader->set_mat4(model, "model");
+			shader->set_mat4(mViewMatrix, "view");
+			shader->set_mat4(get_projection(), "projection");
+
+
+			//shader->
+		/*	GLint modelLoc = glGetUniformLocation(mProgramId, "model");
+			GLint viewLoc = glGetUniformLocation(mProgramId, "view");
+			GLint projLoc = glGetUniformLocation(mProgramId, "projection");
+
+			
+
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->get_view_matrix()));
+			glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera->get_projection()));*/
 		}
 
     void set_aspect(float aspect)

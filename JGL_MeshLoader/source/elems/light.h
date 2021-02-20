@@ -2,9 +2,12 @@
 
 #include "pch.h"
 
+#include "element.h"
+#include "shader/shader_util.h"
+
 namespace nelems
 {
-  class Light
+  class Light : public Element
   {
   public:
 
@@ -15,6 +18,13 @@ namespace nelems
     }
 
     ~Light() {}
+
+    void update(nshaders::Shader* shader) override
+    {
+      shader->set_vec3(mColor, "dirLight.color");
+      shader->set_vec3(mPosition, "dirLight.position");
+      shader->set_f1(mStrength, "dirLight.strength");
+    }
 
     glm::vec3 mPosition = { 1.5f, 3.5f, 3.0f };
 

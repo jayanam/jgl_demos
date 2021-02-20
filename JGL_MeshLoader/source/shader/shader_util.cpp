@@ -59,35 +59,33 @@ namespace nshaders
 		glUseProgram(mProgramId);
 	}
 
-  void Shader::update_camera(const nelems::Camera* camera)
-  {
-    GLint modelLoc = glGetUniformLocation(mProgramId, "model");
-    GLint viewLoc = glGetUniformLocation(mProgramId, "view");
-    GLint projLoc = glGetUniformLocation(mProgramId, "projection");
-
-    glm::mat4 model{ 1.0f };
-
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera->get_view_matrix()));
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(camera->get_projection()));
-  }
-
-  void Shader::update_light(const nelems::Light* light)
-  {
-    GLint dirlightColLoc = glGetUniformLocation(mProgramId, "dirLight.color");
-    GLint dirlightPosLoc = glGetUniformLocation(mProgramId, "dirLight.position");
-    GLint dirLightStrengthLoc = glGetUniformLocation(mProgramId, "dirLight.strength");
-    const glm::vec3 lightColor = light->mColor;
-    const glm::vec3 lightPos = light->mPosition;
-
-    glUniform3f(dirlightColLoc, lightColor.r, lightColor.g, lightColor.b);
-    glUniform3f(dirlightPosLoc, lightPos.x, lightColor.y, lightColor.z);
-    glUniform1f(dirLightStrengthLoc, light->mStrength);
-  }
-
 	void Shader::unload()
 	{
 		glDeleteProgram(mProgramId);
+	}
+
+	void Shader::set_mat4(const glm::mat4& mat4, const std::string& name)
+	{
+		GLint myLoc = glGetUniformLocation(get_program_id(), name.c_str());
+		glUniformMatrix4fv(myLoc, 1, GL_FALSE, glm::value_ptr(mat4));
+	}
+
+	void Shader::set_f1(float v, const std::string& name)
+	{
+		GLint myLoc = glGetUniformLocation(get_program_id(), name.c_str());
+		glUniform1f(myLoc, v);
+	}
+
+	void Shader::set_f3(float a, float b, float c, const std::string& name)
+	{
+		GLint myLoc = glGetUniformLocation(get_program_id(), name.c_str());
+		glUniform3f(myLoc, a, b, c);
+	}
+
+	void Shader::set_vec3(const glm::vec3& vec3, const std::string& name)
+	{
+		GLint myLoc = glGetUniformLocation(get_program_id(), name.c_str());
+		glProgramUniform3fv(get_program_id(), myLoc, 1, glm::value_ptr(vec3));
 	}
 
   void Shader::set_vec4(const glm::vec4& vec4, const std::string& name)

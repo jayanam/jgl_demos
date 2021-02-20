@@ -1,8 +1,5 @@
 #pragma once
 
-#include "elems/camera.h"
-#include "elems/light.h"
-
 namespace nshaders
 {
 
@@ -24,15 +21,17 @@ namespace nshaders
 		// Use the program
 		void use();
 
-    void update_camera(const nelems::Camera* camera);
-
-    void update_light(const nelems::Light* light);
-
 		// Delete the program
 		void unload();
 
     unsigned int get_program_id() { return mProgramId; }
 
+		void set_mat4(const glm::mat4& mat4, const std::string& name);
+
+		void set_f1(float v, const std::string& name);
+		void set_f3(float a, float b, float c, const std::string& name);
+
+		void set_vec3(const glm::vec3& vec3, const std::string& name);
     void set_vec4(const glm::vec4& vec4, const std::string& name);
 
 

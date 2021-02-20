@@ -128,8 +128,11 @@ void JGLWindow::render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // TODO: Vice versa: the elements have to know their shader
-    mShader->update_camera(mCamera.get());
-    mShader->update_light(mLight.get());
+    mCamera->update(mShader.get());
+
+    mLight->update(mShader.get());
+
+    //mShader->update_light(mLight.get());
 
     // TODO: render all meshes / models here
     if (mMesh)
