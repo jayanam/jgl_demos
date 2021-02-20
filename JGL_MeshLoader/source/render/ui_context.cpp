@@ -75,10 +75,6 @@ namespace nrender
     //ImGui::SliderFloat("X: ", &mPosx, 0.0f, 1.0f);
     ImGui::End();
 
-    ImGui::Begin("Light");
-    ImGui::Text("Position");
-    ImGui::End();
-
     ImGui::End();
 
   }

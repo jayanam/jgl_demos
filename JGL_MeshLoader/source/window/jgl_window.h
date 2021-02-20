@@ -14,6 +14,9 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
+#include "ui/property_panel.h"
+
+using namespace nui;
 using namespace nelems;
 using namespace nrender;
 using namespace nshaders;
@@ -75,6 +78,9 @@ namespace nwindow
     std::unique_ptr<UIContext> mUICtx;
 
     std::unique_ptr<OpenGL_Context> mRenderCtx;
+
+    // UI components
+    std::unique_ptr<UI_Property_Panel> mPropertyPanel;
 
     bool mIsRunning;
 

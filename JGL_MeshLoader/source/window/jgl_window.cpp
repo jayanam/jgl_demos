@@ -8,6 +8,8 @@
 #include "elems/input.h"
 #include "application.h"
 
+
+
 namespace nwindow
 {
   bool GLWindow::init(int width, int height, const std::string& title)
@@ -27,6 +29,8 @@ namespace nwindow
     mCamera = std::make_unique<Camera>(glm::vec3(0, 0, 3), 45.0f, aspect, 0.1f, 100.0f);
 
     mLight = std::make_unique<Light>();
+
+    mPropertyPanel = std::make_unique<UI_Property_Panel>(mLight.get());
 
     load_mesh();
 
@@ -87,7 +91,8 @@ namespace nwindow
 
     mUICtx->pre_render();
 
-    // TODO: render UI components
+    // render UI components
+    mPropertyPanel->render();
 
     mUICtx->post_render();
 
@@ -121,10 +126,8 @@ namespace nwindow
     Assimp::Importer Importer;
 
     const aiScene* pScene = Importer.ReadFile(mModel.c_str(),
-      aiProcess_CalcTangentSpace |
       aiProcess_Triangulate |
-      aiProcess_JoinIdenticalVertices |
-      aiProcess_SortByPType);
+      aiProcess_JoinIdenticalVertices);
 
     if (pScene->HasMeshes())
     {
