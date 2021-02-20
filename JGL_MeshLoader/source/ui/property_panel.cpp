@@ -12,7 +12,8 @@ namespace nui
     ImGui::Begin("Properties");
     ImGui::Text("Light:");
 
-    ImGui::ColorEdit4("Color", (float*)&mLight->mColor);
+    ImGui::ColorPicker3("Color", (float*)&mLight->mColor, ImGuiColorEditFlags_PickerHueWheel);
+
     ImGui::End();
   }
 }
