@@ -71,6 +71,7 @@ namespace nrender
     // Create the windows
     ImGui::Begin("Camera");
     ImGui::Text("Position");
+    ImGui::SliderFloat("X: ", &mPosx, 0.0f, 1.0f);
     ImGui::End();
 
     ImGui::Begin("Light");

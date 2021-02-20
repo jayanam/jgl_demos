@@ -14,5 +14,8 @@ namespace nrender
     void render() override;
 
     void end() override;
+
+  private:
+    float mPosx = 0;
   };
 }

@@ -131,6 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\application.cpp" />
+    <ClCompile Include="source\elems\element.cpp" />
     <ClCompile Include="source\3rdparty\imgui-docking\backends\imgui_impl_glfw.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -176,6 +178,8 @@
     <ClCompile Include="source\shader\shader_util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\application.h" />
+    <ClInclude Include="source\elems\element.h" />
     <ClInclude Include="source\elems\face.h" />
     <ClInclude Include="source\elems\input.h" />
     <ClInclude Include="source\elems\light.h" />

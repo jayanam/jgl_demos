@@ -7,19 +7,16 @@ namespace nelems
   class Light
   {
   public:
-    Light() : Light(1.0f, 1.0f, 1.0f, 1.0f)
-    {
-    }
 
-    Light(float r, float g, float b, float strength)
+    Light()
     {
-      mColor = glm::vec3(r, g, b);
-      mStrength = strength;
+      mColor = glm::vec3(1.0f, 1.0f, 1.0f);
+      mStrength = 1.0f;
     }
 
     ~Light() {}
 
-    glm::vec3 mPosition = { 2.0f, 1.5f, 3.0f };
+    glm::vec3 mPosition = { 1.5f, 3.5f, 3.0f };
 
     glm::vec3 mColor = { 1.0f, 1.0f, 1.0f };
 

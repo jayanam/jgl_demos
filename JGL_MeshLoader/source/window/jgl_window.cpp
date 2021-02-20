@@ -72,7 +72,14 @@ bool JGLWindow::init(int width, int height, const std::string& title)
 
   mCamera = std::make_unique<Camera>(glm::vec3(0, 0, 3), 45.0f, aspect, 0.1f, 100.0f);
 
-  mLight = std::make_unique<Light>(0.0f, 0.4f, 1.0f, 1.0f);
+  mLight = std::make_unique<Light>();
+
+  load_mesh();
+
+  mShader->use();
+
+  glm::vec4 vColor{ 0.7f, 0.1f, 0.1f, 1.0f };
+  mShader->set_vec4(vColor, "color");
 
   return mIsValid;
 }
@@ -111,13 +118,6 @@ void JGLWindow::on_key(int key, int scancode, int action, int mods)
 
 void JGLWindow::render()
 {
-  load_mesh();
-
-  mShader->use();
-
-  glm::vec4 vColor{ 0.7f, 0.1f, 0.1f, 1.0f };
-  mShader->set_vec4(vColor, "color");
-
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(mWindow))
   {
