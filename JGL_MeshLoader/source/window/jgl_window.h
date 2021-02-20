@@ -20,7 +20,7 @@ class JGLWindow
 public:
 
   JGLWindow() : 
-    mIsValid(false), mWindow(nullptr), mWidth(0), mHeight(0)
+    mIsRunning(true), mWindow(nullptr), mWidth(0), mHeight(0)
   {
     mUICtx = std::make_unique<UIContext>();
   }
@@ -36,6 +36,10 @@ public:
   void on_key(int key, int scancode, int action, int mods);
 
   void on_resize(int width, int height);
+
+  void on_close();
+
+  bool is_running() { return mIsRunning;  }
 
 private:
 
@@ -58,7 +62,7 @@ private:
 
   int mWidth, mHeight;
 
-  bool mIsValid;
+  bool mIsRunning;
 
 };
 

@@ -1,14 +1,10 @@
 #include "pch.h"
-#include "main.h"
-#include "window/jgl_window.h"
+#include "application.h"
 
 int main(void)
 {
-  JGLWindow glWindow;
-  if (glWindow.init(600, 600, "JMesh Loader: Open GL Demo"))
-  {
-    glWindow.render();
-  }
+  auto app = std::make_unique<Application>("JMeshBox");
+  app->loop();
 
   return 0;
 }

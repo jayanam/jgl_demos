@@ -6,6 +6,7 @@
 
 #include "jgl_window.h"
 #include "elems/input.h"
+#include "application.h"
 
 static void on_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -19,10 +20,14 @@ static void on_window_size_callback(GLFWwindow* window, int width, int height)
   pWindow->on_resize(width, height);
 }
 
+static void on_window_close_callback(GLFWwindow* window)
+{
+  JGLWindow* pWindow = static_cast<JGLWindow*>(glfwGetWindowUserPointer(window));
+  pWindow->on_close();
+}
+
 bool JGLWindow::init(int width, int height, const std::string& title)
 { 
-  mIsValid = true;
-
   mWidth = width;
   mHeight = height;
 
@@ -30,7 +35,7 @@ bool JGLWindow::init(int width, int height, const std::string& title)
   if (!glfwInit())
   {
     fprintf(stderr, "Error: GLFW Window couldn't be initialized\n");
-    mIsValid = false;
+    mIsRunning = false;
   }
 
   // Create the window and store this window as window pointer
@@ -39,13 +44,14 @@ bool JGLWindow::init(int width, int height, const std::string& title)
   if (!mWindow)
   {
     fprintf(stderr, "Error: GLFW Window couldn't be created\n");
-    mIsValid = false;
+    mIsRunning = false;
   }
 
   glfwSetWindowUserPointer(mWindow, this);
   glfwSetKeyCallback(mWindow, on_key_callback);
 
   glfwSetWindowSizeCallback(mWindow, on_window_size_callback);
+  glfwSetWindowCloseCallback(mWindow, on_window_close_callback);
   glfwMakeContextCurrent(mWindow);
   
   glfwSwapInterval(1); // Enable vsync
@@ -56,7 +62,7 @@ bool JGLWindow::init(int width, int height, const std::string& title)
   {
     /* Problem: glewInit failed, something is seriously wrong. */
     fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
-    mIsValid = false;
+    mIsRunning = false;
   }
 
   glEnable(GL_DEPTH_TEST);
@@ -81,14 +87,16 @@ bool JGLWindow::init(int width, int height, const std::string& title)
   glm::vec4 vColor{ 0.7f, 0.1f, 0.1f, 1.0f };
   mShader->set_vec4(vColor, "color");
 
-  return mIsValid;
+  return mIsRunning;
 }
 
 JGLWindow::~JGLWindow()
 {
   mUICtx->end();
 
-  if (mIsValid)
+  mShader->unload();
+
+  if (mIsRunning)
   {
     glfwDestroyWindow(mWindow);
     glfwTerminate();
@@ -116,23 +124,25 @@ void JGLWindow::on_key(int key, int scancode, int action, int mods)
   }
 }
 
+void JGLWindow::on_close()
+{
+  mIsRunning = false;
+}
+
 void JGLWindow::render()
 {
   /* Loop until the user closes the window */
-  while (!glfwWindowShouldClose(mWindow))
-  {
+  //while (!glfwWindowShouldClose(mWindow))
+  //{
     // Open GL render context / frame
     // TODO: Move to OpenGL render context
     glViewport(0, 0, mWidth, mHeight);
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // TODO: Vice versa: the elements have to know their shader
     mCamera->update(mShader.get());
 
     mLight->update(mShader.get());
-
-    //mShader->update_light(mLight.get());
 
     // TODO: render all meshes / models here
     if (mMesh)
@@ -146,9 +156,9 @@ void JGLWindow::render()
 
     glfwPollEvents();
     glfwSwapBuffers(mWindow);
-  }
+  //}
 
-  mShader->unload();
+
 }
 
 void JGLWindow::handle_input()

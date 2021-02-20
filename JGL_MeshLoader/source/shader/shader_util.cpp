@@ -22,7 +22,7 @@ namespace nshaders
 			GLchar* strInfoLog = new GLchar[length + 1];
 			glGetShaderInfoLog(shader_id, length, &length, strInfoLog);
 
-			fprintf(stderr, "Compilation error in shader: %s\n", strInfoLog);
+			fprintf(stderr, "Compile error in shader: %s\n", strInfoLog);
 			delete[] strInfoLog;
 		}
 
