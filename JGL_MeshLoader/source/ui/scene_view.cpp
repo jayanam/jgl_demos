@@ -12,12 +12,12 @@ namespace nui
 
   void SceneView::render_elems(nelems::Mesh* mesh)
   {
-
     mLight->update(mShader.get());
 
     mFrameBuffer->bind();
 
-    mesh->render();
+    if(mesh)
+      mesh->render();
 
     mFrameBuffer->unbind();
   }

@@ -57,6 +57,12 @@ namespace nwindow
 
     void on_close() override;
 
+    void on_load_mesh(const std::string& file_path)
+    {
+      mModel = file_path;
+      load_mesh();
+    }
+
     bool is_running() { return mIsRunning; }
 
 
@@ -65,7 +71,7 @@ namespace nwindow
     bool load_mesh();
 
     // Workaround til we have an input method
-    const std::string mModel = "model.obj";
+    std::string mModel = "model.obj";
 
     GLFWwindow* mWindow;
 
