@@ -60,8 +60,6 @@ namespace nwindow
     Width = width;
     Height = height;
 
-    mCamera->set_aspect((float)width / (float)height);
-
     mFrameBuffer->create_buffers(Width, Height);
 
     render();
@@ -82,19 +80,14 @@ namespace nwindow
   void GLWindow::render()
   {
 
-
     mLight->update(mShader.get());
 
+    // Render to scene to framebuffer
     mRenderCtx->pre_render();
 
     mFrameBuffer->bind();
 
-
-
-    // Render OpenGL context to framebuffer
-
-
-    // TODO: render all meshes / models here
+    // TODO: render meshes in render ctx
     if (mMesh)
     {
       mMesh->render();
@@ -102,9 +95,9 @@ namespace nwindow
 
     mFrameBuffer->unbind();
 
+    // Render UI components
     mUICtx->pre_render();
 
-    // render UI components
     mPropertyPanel->render();
 
     ImGui::Begin("Content");
@@ -113,7 +106,6 @@ namespace nwindow
     glm::vec2 v = { viewportPanelSize.x, viewportPanelSize.y };
 
     mCamera->set_aspect(v.x / v.y);
-
     mCamera->update(mShader.get());
 
     uint64_t textureID = mFrameBuffer->get_texture();
@@ -125,12 +117,15 @@ namespace nwindow
 
     handle_input();
 
+    // Render end, swap buffers
     mRenderCtx->post_render();
 
   }
 
   void GLWindow::handle_input()
   {
+    // TODO: move this and camera to scene UI component
+
     if (glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS)
     {
       mCamera->set_distance(-0.1f);
