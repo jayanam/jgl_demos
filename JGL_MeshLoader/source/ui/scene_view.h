@@ -34,7 +34,7 @@ namespace nui
 
     nelems::Light* get_light() { return mLight.get(); }
 
-    void resize();
+    void resize(int32_t width, int32_t height);
 
     void render_elems(nelems::Mesh* mesh);
 

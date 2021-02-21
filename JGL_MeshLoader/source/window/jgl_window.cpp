@@ -44,7 +44,7 @@ namespace nwindow
     Width = width;
     Height = height;
 
-    mSceneView->resize();
+    mSceneView->resize(Width, Height);
     render();
   }
 
@@ -106,9 +106,7 @@ namespace nwindow
 
   bool GLWindow::load_mesh()
   {
-    if(mMesh)
-      mSceneView->resize();
-    
+   
     Assimp::Importer Importer;
 
     const aiScene* pScene = Importer.ReadFile(mModel.c_str(),

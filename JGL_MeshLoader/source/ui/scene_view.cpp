@@ -5,8 +5,11 @@
 
 namespace nui
 {
-  void SceneView::resize()
+  void SceneView::resize(int32_t width, int32_t height)
   {
+    mSize.x = width;
+    mSize.y = height;
+
     mFrameBuffer->create_buffers((int32_t)mSize.x, (int32_t) mSize.y);
   }
 

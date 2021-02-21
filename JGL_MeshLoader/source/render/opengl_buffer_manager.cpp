@@ -70,7 +70,7 @@ namespace nrender
       delete_buffers();
     }
 
-    glCreateFramebuffers(1, &mFBO);
+    glGenFramebuffers(1, &mFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
     glCreateTextures(GL_TEXTURE_2D, 1, &mTexId);
     glBindTexture(GL_TEXTURE_2D, mTexId);
@@ -103,8 +103,8 @@ namespace nrender
   void OpenGL_FrameBuffer::delete_buffers()
   {
     glDeleteFramebuffers(GL_FRAMEBUFFER, &mFBO);
-    glDeleteTextures(1, &mTexId);
-    glDeleteTextures(1, &mDepthId);
+    //glDeleteTextures(1, &mTexId);
+    //glDeleteTextures(1, &mDepthId);
 
     mTexId = 0;
     mDepthId = 0;
