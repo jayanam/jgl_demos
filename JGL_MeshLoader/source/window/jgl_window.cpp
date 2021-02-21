@@ -20,23 +20,25 @@ namespace nwindow
 
     mRenderCtx->init(this);
 
-    mFrameBuffer->create_buffers(Width, Height);
+    //mFrameBuffer->create_buffers(Width, Height);
 
     mUICtx->init(this);
 
     auto aspect = (float)width / (float)height;
-    mShader = std::make_unique<Shader>();
-    mShader->load("shaders/vs.shader", "shaders/fs.shader");
 
-    mCamera = std::make_unique<Camera>(glm::vec3(0, 0, 3), 45.0f, aspect, 0.1f, 100.0f);
+    // mCamera = std::make_unique<Camera>(glm::vec3(0, 0, 3), 45.0f, aspect, 0.1f, 100.0f);
 
-    mLight = std::make_unique<Light>();
+    // mLight = std::make_unique<Light>();
 
-    mPropertyPanel = std::make_unique<UI_Property_Panel>(mLight.get());
+    mSceneView = std::make_unique<SceneView>();
+
+    mPropertyPanel = std::make_unique<Property_Panel>();
+
+
 
     load_mesh();
 
-    mShader->use();
+    //mShader->use();
 
     return mIsRunning;
   }
@@ -45,14 +47,12 @@ namespace nwindow
   {
     mUICtx->end();
 
-    mShader->unload();
-
     mRenderCtx->end();
 
-    if (mShader)
-    {
-      mShader->unload();
-    }
+    //if (mShader)
+    //{
+    //  mShader->unload();
+    //}
   }
 
   void GLWindow::on_resize(int width, int height)
@@ -60,8 +60,8 @@ namespace nwindow
     Width = width;
     Height = height;
 
-    mFrameBuffer->create_buffers(Width, Height);
-
+    //mFrameBuffer->create_buffers(Width, Height);
+    mSceneView->resize();
     render();
   }
 
@@ -79,39 +79,20 @@ namespace nwindow
 
   void GLWindow::render()
   {
-
-    mLight->update(mShader.get());
-
     // Render to scene to framebuffer
     mRenderCtx->pre_render();
 
-    mFrameBuffer->bind();
-
     // TODO: render meshes in render ctx
-    if (mMesh)
-    {
-      mMesh->render();
-    }
-
-    mFrameBuffer->unbind();
+    mSceneView->render_elems(mMesh.get());
 
     // Render UI components
     mUICtx->pre_render();
 
-    mPropertyPanel->render();
+    mSceneView->render();
 
-    ImGui::Begin("Content");
-      
-    ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-    glm::vec2 v = { viewportPanelSize.x, viewportPanelSize.y };
+    mPropertyPanel->render(mSceneView.get());
 
-    mCamera->set_aspect(v.x / v.y);
-    mCamera->update(mShader.get());
 
-    uint64_t textureID = mFrameBuffer->get_texture();
-    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ v.x, v.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-
-    ImGui::End();
 
     mUICtx->post_render();
 
@@ -128,18 +109,18 @@ namespace nwindow
 
     if (glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS)
     {
-      mCamera->set_distance(-0.1f);
+      mSceneView->set_distance(-0.1f);
     }
 
     if (glfwGetKey(mWindow, GLFW_KEY_S) == GLFW_PRESS)
     {
-      mCamera->set_distance(0.1f);
+      mSceneView->set_distance(0.1f);
     }
 
     double x, y;
     glfwGetCursorPos(mWindow, &x, &y);
 
-    mCamera->on_mouse_move(x, y, Input::GetPressedButton(mWindow));
+    mSceneView->on_mouse_move(x, y, Input::GetPressedButton(mWindow));
 
   }
 

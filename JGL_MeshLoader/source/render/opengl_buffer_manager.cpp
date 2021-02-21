@@ -60,7 +60,7 @@ namespace nrender
   }
 
 
-  void OpenGL_FrameBuffer::create_buffers(float width, float height)
+  void OpenGL_FrameBuffer::create_buffers(int32_t width, int32_t height)
   {
     mWidth = width;
     mHeight = height;

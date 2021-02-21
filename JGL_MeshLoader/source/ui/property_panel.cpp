@@ -7,12 +7,12 @@
 
 namespace nui
 {
-  void UI_Property_Panel::render()
+  void Property_Panel::render(nui::SceneView* scene_view)
   {
     ImGui::Begin("Properties");
     ImGui::Text("Light:");
 
-    ImGui::ColorPicker3("Color", (float*)&mLight->mColor, ImGuiColorEditFlags_PickerHueWheel);
+    ImGui::ColorPicker3("Color", (float*)&scene_view->get_light()->mColor, ImGuiColorEditFlags_PickerHueWheel);
 
     ImGui::End();
   }

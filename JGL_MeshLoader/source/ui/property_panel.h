@@ -1,20 +1,17 @@
 #pragma once
 
 #include "elems/light.h"
+#include "ui/scene_view.h"
 
 namespace nui
 {
-  class UI_Property_Panel
+  class Property_Panel
   {
   public:
-    UI_Property_Panel(nelems::Light* light) :
-      mLight(light)
-    {}
 
-    void render();
+    void render(nui::SceneView* mScene);
 
   private:
-    nelems::Light* mLight;
   };
 }
 

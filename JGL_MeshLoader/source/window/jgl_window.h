@@ -16,6 +16,7 @@
 #include "imgui_impl_opengl3.h"
 
 #include "ui/property_panel.h"
+#include "ui/scene_view.h"
 
 using namespace nui;
 using namespace nelems;
@@ -33,7 +34,6 @@ namespace nwindow
     {
       mUICtx = std::make_unique<UIContext>();
       mRenderCtx = std::make_unique<OpenGL_Context>();
-      mFrameBuffer = std::make_unique<OpenGL_FrameBuffer>();
     }
 
     ~GLWindow();
@@ -69,11 +69,11 @@ namespace nwindow
 
     GLFWwindow* mWindow;
 
-    std::unique_ptr<Camera> mCamera;
+    //std::unique_ptr<Camera> mCamera;
 
-    std::unique_ptr<Shader> mShader;
+    //std::unique_ptr<Shader> mShader;
 
-    std::unique_ptr<Light> mLight;
+    // std::unique_ptr<Light> mLight;
 
     std::unique_ptr<Mesh> mMesh;
 
@@ -81,10 +81,12 @@ namespace nwindow
 
     std::unique_ptr<OpenGL_Context> mRenderCtx;
 
-    std::unique_ptr<OpenGL_FrameBuffer> mFrameBuffer;
+    //std::unique_ptr<OpenGL_FrameBuffer> mFrameBuffer;
 
     // UI components
-    std::unique_ptr<UI_Property_Panel> mPropertyPanel;
+    std::unique_ptr<Property_Panel> mPropertyPanel;
+
+    std::unique_ptr<SceneView> mSceneView;
 
     bool mIsRunning;
 

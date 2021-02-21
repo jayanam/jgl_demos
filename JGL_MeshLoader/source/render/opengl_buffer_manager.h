@@ -28,7 +28,7 @@ namespace nrender
   {
   public:
 
-    void create_buffers(float width, float height) override;
+    void create_buffers(int32_t width, int32_t height) override;
 
     void delete_buffers() override;
 

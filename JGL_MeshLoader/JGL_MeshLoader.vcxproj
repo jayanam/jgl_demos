@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\ui\scene_view.cpp" />
     <ClCompile Include="source\ui\property_panel.cpp" />
     <ClCompile Include="source\render\opengl_context.cpp" />
     <ClCompile Include="source\application.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="source\shader\shader_util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\ui\scene_view.h" />
     <ClInclude Include="source\ui\property_panel.h" />
     <ClInclude Include="source\render\opengl_context.h" />
     <ClInclude Include="source\application.h" />
