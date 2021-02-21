@@ -69,19 +69,11 @@ namespace nwindow
 
     GLFWwindow* mWindow;
 
-    //std::unique_ptr<Camera> mCamera;
-
-    //std::unique_ptr<Shader> mShader;
-
-    // std::unique_ptr<Light> mLight;
-
     std::unique_ptr<Mesh> mMesh;
 
     std::unique_ptr<UIContext> mUICtx;
 
     std::unique_ptr<OpenGL_Context> mRenderCtx;
-
-    //std::unique_ptr<OpenGL_FrameBuffer> mFrameBuffer;
 
     // UI components
     std::unique_ptr<Property_Panel> mPropertyPanel;

@@ -20,25 +20,13 @@ namespace nwindow
 
     mRenderCtx->init(this);
 
-    //mFrameBuffer->create_buffers(Width, Height);
-
     mUICtx->init(this);
-
-    auto aspect = (float)width / (float)height;
-
-    // mCamera = std::make_unique<Camera>(glm::vec3(0, 0, 3), 45.0f, aspect, 0.1f, 100.0f);
-
-    // mLight = std::make_unique<Light>();
 
     mSceneView = std::make_unique<SceneView>();
 
     mPropertyPanel = std::make_unique<Property_Panel>();
 
-
-
     load_mesh();
-
-    //mShader->use();
 
     return mIsRunning;
   }
@@ -48,11 +36,6 @@ namespace nwindow
     mUICtx->end();
 
     mRenderCtx->end();
-
-    //if (mShader)
-    //{
-    //  mShader->unload();
-    //}
   }
 
   void GLWindow::on_resize(int width, int height)
@@ -60,7 +43,6 @@ namespace nwindow
     Width = width;
     Height = height;
 
-    //mFrameBuffer->create_buffers(Width, Height);
     mSceneView->resize();
     render();
   }
@@ -92,8 +74,6 @@ namespace nwindow
 
     mPropertyPanel->render(mSceneView.get());
 
-
-
     mUICtx->post_render();
 
     handle_input();
@@ -121,7 +101,6 @@ namespace nwindow
     glfwGetCursorPos(mWindow, &x, &y);
 
     mSceneView->on_mouse_move(x, y, Input::GetPressedButton(mWindow));
-
   }
 
   bool GLWindow::load_mesh()
