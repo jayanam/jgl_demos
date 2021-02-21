@@ -38,7 +38,7 @@ namespace nelems
   private:
     
     // Buffers manager
-    std::unique_ptr<nrender::RenderBufferManager> mRenderBufferMgr;
+    std::unique_ptr<nrender::VertexIndexBuffer> mRenderBufferMgr;
     
     // Vertices and indices
     std::vector<VertexHolder> mVertices;

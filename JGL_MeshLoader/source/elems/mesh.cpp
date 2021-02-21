@@ -7,7 +7,7 @@ namespace nelems
 {
   void Mesh::init()
   {
-    mRenderBufferMgr = std::make_unique<nrender::OpenGL_BufferManager>();
+    mRenderBufferMgr = std::make_unique<nrender::OpenGL_VertexIndexBuffer>();
 
     create_buffers();
   }

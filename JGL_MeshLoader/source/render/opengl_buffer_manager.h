@@ -6,10 +6,10 @@
 
 namespace nrender
 {
-  class OpenGL_BufferManager : public RenderBufferManager
+  class OpenGL_VertexIndexBuffer : public VertexIndexBuffer
   {
   public:
-    OpenGL_BufferManager() : RenderBufferManager()
+    OpenGL_VertexIndexBuffer() : VertexIndexBuffer()
     {}
 
     void create_buffers(const std::vector<nelems::VertexHolder>& vertices, const std::vector<unsigned int>& indices) override;
@@ -22,5 +22,20 @@ namespace nrender
 
     void draw(int index_count) override;
 
+  };
+
+  class OpenGL_FrameBuffer : public FrameBuffer
+  {
+  public:
+
+    void create_buffers(float width, float height) override;
+
+    void delete_buffers() override;
+
+    void bind() override;
+
+    void unbind() override;
+    
+    uint32_t get_texture() override;
   };
 }

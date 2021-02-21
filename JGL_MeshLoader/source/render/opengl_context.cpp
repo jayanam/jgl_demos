@@ -74,6 +74,7 @@ namespace nrender
 
   void OpenGL_Context::post_render()
   {
+
     glfwPollEvents();
     glfwSwapBuffers((GLFWwindow*) mWindow->get_native_window());
   }

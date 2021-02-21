@@ -7,6 +7,7 @@
 
 #include "render/ui_context.h"
 #include "render/opengl_context.h"
+#include "render/opengl_buffer_manager.h"
 
 #include "window/window.h"
 
@@ -32,6 +33,7 @@ namespace nwindow
     {
       mUICtx = std::make_unique<UIContext>();
       mRenderCtx = std::make_unique<OpenGL_Context>();
+      mFrameBuffer = std::make_unique<OpenGL_FrameBuffer>();
     }
 
     ~GLWindow();
@@ -78,6 +80,8 @@ namespace nwindow
     std::unique_ptr<UIContext> mUICtx;
 
     std::unique_ptr<OpenGL_Context> mRenderCtx;
+
+    std::unique_ptr<OpenGL_FrameBuffer> mFrameBuffer;
 
     // UI components
     std::unique_ptr<UI_Property_Panel> mPropertyPanel;

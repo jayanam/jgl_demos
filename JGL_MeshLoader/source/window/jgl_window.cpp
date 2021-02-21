@@ -20,6 +20,8 @@ namespace nwindow
 
     mRenderCtx->init(this);
 
+    mFrameBuffer->create_buffers(Width, Height);
+
     mUICtx->init(this);
 
     auto aspect = (float)width / (float)height;
@@ -60,6 +62,8 @@ namespace nwindow
 
     mCamera->set_aspect((float)width / (float)height);
 
+    mFrameBuffer->create_buffers(Width, Height);
+
     render();
   }
 
@@ -77,11 +81,18 @@ namespace nwindow
 
   void GLWindow::render()
   {
-    mCamera->update(mShader.get());
+
 
     mLight->update(mShader.get());
 
     mRenderCtx->pre_render();
+
+    mFrameBuffer->bind();
+
+
+
+    // Render OpenGL context to framebuffer
+
 
     // TODO: render all meshes / models here
     if (mMesh)
@@ -89,10 +100,26 @@ namespace nwindow
       mMesh->render();
     }
 
+    mFrameBuffer->unbind();
+
     mUICtx->pre_render();
 
     // render UI components
     mPropertyPanel->render();
+
+    ImGui::Begin("Content");
+      
+    ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+    glm::vec2 v = { viewportPanelSize.x, viewportPanelSize.y };
+
+    mCamera->set_aspect(v.x / v.y);
+
+    mCamera->update(mShader.get());
+
+    uint64_t textureID = mFrameBuffer->get_texture();
+    ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ v.x, v.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+    ImGui::End();
 
     mUICtx->post_render();
 

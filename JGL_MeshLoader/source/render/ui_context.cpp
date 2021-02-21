@@ -65,6 +65,7 @@ namespace nrender
 
   void UIContext::pre_render()
   {
+
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();

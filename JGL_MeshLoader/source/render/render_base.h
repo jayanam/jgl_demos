@@ -6,10 +6,10 @@
 
 namespace nrender
 {
-  class RenderBufferManager
+  class VertexIndexBuffer
   {
   public:
-    RenderBufferManager() : mVBO{ 0 }, mVAO{ 0 }, mIBO{ 0 }
+    VertexIndexBuffer() : mVBO{ 0 }, mVAO{ 0 }, mIBO{ 0 }
     {}
 
     virtual void create_buffers(const std::vector<nelems::VertexHolder>& vertices, const std::vector<unsigned int>& indices) = 0;
@@ -26,6 +26,30 @@ namespace nrender
     GLuint mVBO;
     GLuint mVAO;
     GLuint mIBO;
+  };
+
+  class FrameBuffer
+  {
+  public:
+    FrameBuffer() : mFBO { 0 }, mDepthId {0}
+    {}
+
+    virtual void create_buffers(float width, float height) = 0;
+
+    virtual void delete_buffers() = 0;
+
+    virtual void bind() = 0;
+
+    virtual void unbind() = 0;
+
+    virtual uint32_t get_texture() = 0;
+
+  protected:
+    uint32_t mFBO = 0;
+    uint32_t mTexId = 0;
+    uint32_t mDepthId = 0;
+    float mWidth = 0;
+    float mHeight = 0;
   };
 
   class RenderContext
