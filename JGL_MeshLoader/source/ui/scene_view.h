@@ -42,7 +42,12 @@ namespace nui
 
     void on_mouse_move(double x, double y, nelems::EInputButton button);
 
-    void set_distance(float distance);
+    void on_mouse_wheel(double delta);
+
+    void reset_view()
+    {
+      mCamera->reset();
+    }
 
   private:
     std::unique_ptr<nelems::Camera> mCamera;

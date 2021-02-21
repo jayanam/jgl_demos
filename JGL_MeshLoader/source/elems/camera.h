@@ -80,6 +80,20 @@ namespace nelems
 			return mViewMatrix;
 		}
 
+		void on_mouse_wheel(double delta)
+		{
+			set_distance(delta * 0.5);
+
+			update_view_matrix();
+		}
+
+		void reset()
+		{
+			mFocus = { 0.0f, 0.0f, 0.0f };
+			mDistance = 5.0f;
+			update_view_matrix();
+		}
+
 		void on_mouse_move(double x, double y, EInputButton button)
 		{
 			glm::vec2 pos2d{ x, y };

@@ -30,9 +30,9 @@ namespace nui
     mCamera->on_mouse_move(x, y, button);
   }
 
-  void SceneView::set_distance(float distance)
+  void SceneView::on_mouse_wheel(double delta)
   {
-    mCamera->set_distance(distance);
+    mCamera->on_mouse_wheel(delta);
   }
 
   void SceneView::render()

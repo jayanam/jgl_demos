@@ -48,6 +48,11 @@ namespace nwindow
     render();
   }
 
+  void GLWindow::on_scroll(double delta)
+  {
+    mSceneView->on_mouse_wheel(delta);
+  }
+
   void GLWindow::on_key(int key, int scancode, int action, int mods)
   {
     if (action == GLFW_PRESS)
@@ -90,12 +95,17 @@ namespace nwindow
 
     if (glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS)
     {
-      mSceneView->set_distance(-0.1f);
+      mSceneView->on_mouse_wheel(-0.4f);
     }
 
     if (glfwGetKey(mWindow, GLFW_KEY_S) == GLFW_PRESS)
     {
-      mSceneView->set_distance(0.1f);
+      mSceneView->on_mouse_wheel(0.4f);
+    }
+
+    if (glfwGetKey(mWindow, GLFW_KEY_F) == GLFW_PRESS)
+    {
+      mSceneView->reset_view();
     }
 
     double x, y;
