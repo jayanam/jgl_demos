@@ -8,14 +8,16 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform vec4 color;
 
-out vec3 FragPos;
-out vec3 FragNormal;
-out vec4 colorV;
+out vec3 fPos;
+out vec3 fNormal;
+out vec4 vColor;
 
 void main()
 {
-  colorV = color;
+  vColor = color;
+  fPos = vec3(model * vec4(position, 1.0));
+  fNormal = normal;
+
   gl_Position = projection * view * model * vec4(position, 1.0f);
-  FragPos = vec3(model * vec4(position, 1.0));
-  FragNormal = normal;
+
 }
