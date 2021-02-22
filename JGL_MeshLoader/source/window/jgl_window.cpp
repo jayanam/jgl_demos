@@ -6,14 +6,10 @@
 
 #include "jgl_window.h"
 #include "elems/input.h"
-#include "application.h"
-
 
 
 namespace nwindow
 {
-#define BIND_FILEBROWSER_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
-
   bool GLWindow::init(int width, int height, const std::string& title)
   {
     Width = width;
@@ -27,7 +23,7 @@ namespace nwindow
     mSceneView = std::make_unique<SceneView>();
 
     mPropertyPanel = std::make_unique<Property_Panel>();
-    mPropertyPanel->set_mesh_load_callback(BIND_FILEBROWSER_FN(GLWindow::on_load_mesh));
+    mPropertyPanel->set_mesh_load_callback(BIND_FN(GLWindow::on_load_mesh));
 
     return mIsRunning;
   }
