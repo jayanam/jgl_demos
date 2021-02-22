@@ -8,15 +8,15 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform vec4 color;
 
-out vec3 fPos;
-out vec3 fNormal;
-out vec4 vColor;
+out vec3 WorldPos;
+out vec3 Normal;
+out vec4 Color;
 
 void main()
 {
-  vColor = color;
-  fPos = vec3(model * vec4(position, 1.0));
-  fNormal = normal;
+  Color = color;
+  WorldPos = vec3(model * vec4(position, 1.0));
+  Normal = normal;
 
   gl_Position = projection * view * model * vec4(position, 1.0f);
 

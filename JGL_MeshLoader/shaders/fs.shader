@@ -1,9 +1,5 @@
 #version 330
 
-uniform mat4 model;
-
-in vec4 colorV;
-
 struct DirLight
 {
   vec3 position;
@@ -11,22 +7,25 @@ struct DirLight
   float strength;
 };
 
+uniform mat4 model;
+
 uniform DirLight dirLight;
 
-in vec3 fPos;
+in vec4 Color;
 
-in vec3 fNormal;
+in vec3 WorldPos;
+
+in vec3 Normal;
 
 out vec4 fOutput;
-
 
 void main ()  
 {
   mat3 normalMatrix = transpose(inverse(mat3(model)));
 
-  vec3 normal = normalize(normalMatrix * fNormal);
+  vec3 normal = normalize(normalMatrix * Normal);
 
-  vec3 light_diff = dirLight.position - vec3(model * vec4(fPos, 1));
+  vec3 light_diff = dirLight.position - vec3(model * vec4(WorldPos, 1));
 
   float luminance = dot(normal, light_diff) / (length(light_diff) * length(normal));
 
