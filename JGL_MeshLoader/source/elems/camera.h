@@ -90,7 +90,7 @@ namespace nelems
 		void reset()
 		{
 			mFocus = { 0.0f, 0.0f, 0.0f };
-			mDistance = 5.0f;
+			//mDistance = 5.0f;
 			update_view_matrix();
 		}
 
