@@ -212,6 +212,7 @@
     <None Include="D:\Projects\Lumos\Lumos\External\imgui\plugins\LICENSE" />
     <None Include="libs\assimp\LICENSE" />
     <None Include="shaders\fs.shader" />
+    <None Include="shaders\fs_pbr.shader" />
     <None Include="shaders\vs.shader" />
     <None Include="source\3rdparty\plugins\imgui\LICENSE" />
   </ItemGroup>
