@@ -181,7 +181,6 @@
     <ClCompile Include="source\shader\shader_util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\Projects\Lumos\Lumos\External\imgui\plugins\ImFileBrowser.h" />
     <ClInclude Include="source\3rdparty\plugins\imgui\ImFileBrowser.h" />
     <ClInclude Include="source\utils\imgui_widgets.h" />
     <ClInclude Include="source\ui\scene_view.h" />
@@ -210,6 +209,7 @@
   <ItemGroup>
     <None Include="..\..\3rdparty\assimp\LICENSE" />
     <None Include="D:\Projects\Lumos\Lumos\External\imgui\plugins\LICENSE" />
+    <None Include="imgui.ini" />
     <None Include="libs\assimp\LICENSE" />
     <None Include="shaders\fs.shader" />
     <None Include="shaders\fs_pbr.shader" />
