@@ -17,6 +17,8 @@ namespace nelems
 
     virtual ~Mesh();
 
+    bool load(const std::string& filepath);
+
     void add_vertex(const VertexHolder& vertex) { mVertices.push_back(vertex);  }
 
     void add_vertex_index(unsigned int vertex_idx) { mVertexIndices.push_back(vertex_idx); }

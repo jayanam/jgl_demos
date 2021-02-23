@@ -23,6 +23,16 @@ namespace nui
     mCamera->on_mouse_wheel(delta);
   }
 
+  void SceneView::load_mesh(const std::string& filepath)
+  {
+    if(!mMesh)
+      mMesh = std::make_shared<nelems::Mesh>();
+    
+    mMesh->load(filepath);
+    
+
+  }
+
   void SceneView::render()
   {
 
