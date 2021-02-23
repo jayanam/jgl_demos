@@ -4,10 +4,11 @@
 
 #include "render/render_base.h"
 #include "vertex_holder.h"
+#include "elems/element.h"
 
 namespace nelems
 {
-  class Mesh
+  class Mesh : public Element
   {
     
   public:
@@ -21,6 +22,19 @@ namespace nelems
     void add_vertex_index(unsigned int vertex_idx) { mVertexIndices.push_back(vertex_idx); }
 
     std::vector<unsigned int> get_vertex_indices() { return mVertexIndices; }
+
+    void update(nshaders::Shader* shader) override
+    {
+      // pbr color
+      shader->set_vec3(mColor, "albedo");
+
+      shader->set_f1(0.1f, "roughness");
+      shader->set_f1(0.0f, "metallic");
+      shader->set_f1(1.0f, "ao");
+
+    }
+    
+    glm::vec3 mColor = { 1.0f, 0.0f, 0.0f };
 
 
     void init();
@@ -43,6 +57,7 @@ namespace nelems
     // Vertices and indices
     std::vector<VertexHolder> mVertices;
     std::vector<unsigned int> mVertexIndices;
+
 
   };
 }

@@ -5,6 +5,8 @@ namespace nui
 {
   void Property_Panel::render(nui::SceneView* scene_view)
   {
+    auto mesh = scene_view->get_mesh();
+
     ImGui::Begin("Properties");
     if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
     {
@@ -17,10 +19,15 @@ namespace nui
       ImGui::Text(mCurrentFile.c_str());
     }
 
+    if (ImGui::CollapsingHeader("Material") && mesh)
+    {
+      ImGui::ColorPicker3("Color", (float*)&mesh->mColor, ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_DisplayRGB);
+
+    }
+
     if (ImGui::CollapsingHeader("Light"))
     {
-      ImGui::ColorPicker3("Color", (float*)&scene_view->get_light()->mColor, ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_DisplayRGB);
-    
+
       ImGui::Separator();
       ImGui::Text("Position");
       ImGui::Separator();

@@ -19,12 +19,11 @@ namespace nui
       mFrameBuffer = std::make_unique<nrender::OpenGL_FrameBuffer>();
       mFrameBuffer->create_buffers(800, 600);
       mShader = std::make_unique<nshaders::Shader>();
-      mShader->load("shaders/vs.shader", "shaders/fs.shader");
+      mShader->load("shaders/vs.shader", "shaders/fs_pbr.shader");
       mLight = std::make_unique<nelems::Light>();
 
       mCamera = std::make_unique<nelems::Camera>(glm::vec3(0, 0, 3), 45.0f, 1.3f, 0.1f, 100.0f);
 
-      mShader->use();
     }
 
     ~SceneView()
@@ -36,10 +35,16 @@ namespace nui
 
     void resize(int32_t width, int32_t height);
 
-    void render_elems(nelems::Mesh* mesh);
 
     void render();
 
+    void set_mesh(std::shared_ptr<nelems::Mesh> mesh)
+    {
+      mMesh = mesh;
+    }
+
+    std::shared_ptr<nelems::Mesh> get_mesh() { return mMesh; }
+    
     void on_mouse_move(double x, double y, nelems::EInputButton button);
 
     void on_mouse_wheel(double delta);
@@ -54,6 +59,7 @@ namespace nui
     std::unique_ptr<nrender::OpenGL_FrameBuffer> mFrameBuffer;
     std::unique_ptr<nshaders::Shader> mShader;
     std::unique_ptr<nelems::Light> mLight;
+    std::shared_ptr<nelems::Mesh> mMesh;
     glm::vec2 mSize;
   };
 }

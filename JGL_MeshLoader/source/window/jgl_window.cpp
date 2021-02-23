@@ -63,11 +63,12 @@ namespace nwindow
 
   void GLWindow::render()
   {
+
     // Render to scene to framebuffer
     mRenderCtx->pre_render();
 
     // TODO: render meshes in render ctx
-    mSceneView->render_elems(mMesh.get());
+    //mSceneView->render_elems(mMesh.get());
 
     // Render UI components
     mUICtx->pre_render();
@@ -123,7 +124,7 @@ namespace nwindow
     {
       auto* mesh = pScene->mMeshes[0];
 
-      mMesh = std::make_unique<Mesh>();
+      mMesh = std::make_shared<Mesh>();
 
       for (uint32_t i = 0; i < mesh->mNumVertices; i++)
       {
@@ -144,6 +145,9 @@ namespace nwindow
     }
 
     mMesh->init();
+
+    mSceneView->set_mesh(mMesh);
+
     return true;
   }
 }

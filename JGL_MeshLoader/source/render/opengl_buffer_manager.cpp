@@ -102,12 +102,15 @@ namespace nrender
 
   void OpenGL_FrameBuffer::delete_buffers()
   {
-    glDeleteFramebuffers(GL_FRAMEBUFFER, &mFBO);
-    //glDeleteTextures(1, &mTexId);
-    //glDeleteTextures(1, &mDepthId);
+    if (mFBO)
+    {
+      glDeleteFramebuffers(GL_FRAMEBUFFER, &mFBO);
+      glDeleteTextures(1, &mTexId);
+      glDeleteTextures(1, &mDepthId);
+      mTexId = 0;
+      mDepthId = 0;
+    }
 
-    mTexId = 0;
-    mDepthId = 0;
   }
 
   void OpenGL_FrameBuffer::bind()

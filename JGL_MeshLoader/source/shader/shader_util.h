@@ -28,6 +28,7 @@ namespace nshaders
 
 		void set_mat4(const glm::mat4& mat4, const std::string& name);
 
+		void set_i1(int v, const std::string& name);
 		void set_f1(float v, const std::string& name);
 		void set_f3(float a, float b, float c, const std::string& name);
 

@@ -70,6 +70,12 @@ namespace nshaders
 		glUniformMatrix4fv(myLoc, 1, GL_FALSE, glm::value_ptr(mat4));
 	}
 
+	void Shader::set_i1(int v, const std::string& name)
+	{
+		GLint myLoc = glGetUniformLocation(get_program_id(), name.c_str());
+		glUniform1i(myLoc, v);
+	}
+
 	void Shader::set_f1(float v, const std::string& name)
 	{
 		GLint myLoc = glGetUniformLocation(get_program_id(), name.c_str());
