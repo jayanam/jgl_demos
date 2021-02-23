@@ -113,12 +113,19 @@ namespace nwindow
 
   bool GLWindow::load_mesh()
   {
+    const uint32_t cMeshImportFlags =
+      aiProcess_CalcTangentSpace |    
+      aiProcess_Triangulate |         
+      aiProcess_SortByPType |         
+      aiProcess_GenNormals |          
+      aiProcess_GenUVCoords |         
+      aiProcess_OptimizeMeshes |      
+      aiProcess_ValidateDataStructure;
    
     Assimp::Importer Importer;
 
     const aiScene* pScene = Importer.ReadFile(mModel.c_str(),
-      aiProcess_Triangulate |
-      aiProcess_JoinIdenticalVertices);
+      cMeshImportFlags);
 
     if (pScene->HasMeshes())
     {
