@@ -56,8 +56,6 @@ namespace nrender
     glfwSetWindowCloseCallback(glWindow, on_window_close_callback);
     glfwMakeContextCurrent(glWindow);
 
-    //glfwSwapInterval(1); // Enable vsync
-
     GLenum err = glewInit();
     if (GLEW_OK != err)
     {

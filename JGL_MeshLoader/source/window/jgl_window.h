@@ -66,8 +66,7 @@ namespace nwindow
 
     GLFWwindow* mWindow;
 
-    std::shared_ptr<Mesh> mMesh;
-
+    // Render contexts
     std::unique_ptr<UIContext> mUICtx;
 
     std::unique_ptr<OpenGL_Context> mRenderCtx;
