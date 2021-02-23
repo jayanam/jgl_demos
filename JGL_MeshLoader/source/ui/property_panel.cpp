@@ -22,7 +22,8 @@ namespace nui
     if (ImGui::CollapsingHeader("Material") && mesh)
     {
       ImGui::ColorPicker3("Color", (float*)&mesh->mColor, ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_DisplayRGB);
-
+      ImGui::SliderFloat("Roughness", &mesh->mRoughness, 0.0f, 1.0f);
+      ImGui::SliderFloat("Metallic", &mesh->mMetallic, 0.0f, 1.0f);
     }
 
     if (ImGui::CollapsingHeader("Light"))

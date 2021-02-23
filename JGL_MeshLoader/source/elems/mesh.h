@@ -28,14 +28,15 @@ namespace nelems
       // pbr color
       shader->set_vec3(mColor, "albedo");
 
-      shader->set_f1(0.1f, "roughness");
-      shader->set_f1(0.0f, "metallic");
+      shader->set_f1(mRoughness, "roughness");
+      shader->set_f1(mMetallic, "metallic");
       shader->set_f1(1.0f, "ao");
 
     }
     
     glm::vec3 mColor = { 1.0f, 0.0f, 0.0f };
-
+    float mRoughness = 0.2f;
+    float mMetallic = 0.1f;
 
     void init();
 
