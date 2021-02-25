@@ -207,8 +207,6 @@
     <ClInclude Include="source\window\window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\3rdparty\assimp\LICENSE" />
-    <None Include="D:\Projects\Lumos\Lumos\External\imgui\plugins\LICENSE" />
     <None Include="imgui.ini" />
     <None Include="libs\assimp\LICENSE" />
     <None Include="shaders\fs.shader" />

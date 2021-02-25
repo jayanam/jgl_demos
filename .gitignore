@@ -6,5 +6,6 @@
 /JGL_MeshLoader/Debug
 /JGL_MeshLoader/.vs/JGL_MeshLoader/v16
 /JGL_MeshLoader/x64/Debug
-/JGL_MeshLoader/include
-/JGL_MeshLoader/libs
+/JGL_MeshLoader/libs/assimp/assimpd.exp
+/JGL_MeshLoader/libs/assimp/unit.exp
+/JGL_MeshLoader/libs/assimp/unit.lib
