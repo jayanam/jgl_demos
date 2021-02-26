@@ -13,7 +13,7 @@ namespace nelems
 
     Light()
     {
-      mColor = glm::vec3(1.0, 1.0f, 10.0f);
+      mColor = glm::vec3(1.0, 1.0f, 1.0f);
       mStrength = 100.0f;
     }
 
